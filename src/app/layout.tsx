@@ -12,7 +12,10 @@ const geistMono = Geist_Mono({
 	subsets: ['latin'],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+
 export const metadata: Metadata = {
+	metadataBase: new URL(siteUrl),
 	title: 'Kindo - Fun & Easy Korean Learning App',
 	description:
 		'Learn Korean through play with Kindo! Interactive lessons, speaking practice, personalized learning paths, and daily reminders to help you master Korean language skills.',
@@ -31,12 +34,21 @@ export const metadata: Metadata = {
 			'Learn Korean through play with interactive lessons and personalized learning paths.',
 		type: 'website',
 		locale: 'en_US',
+		images: [
+			{
+				url: '/landing.png',
+				width: 1200,
+				height: 630,
+				alt: 'Kindo - Fun & Easy Korean Learning App',
+			},
+		],
 	},
 	twitter: {
 		card: 'summary_large_image',
 		title: 'Kindo - Fun & Easy Korean Learning App',
 		description:
 			'Learn Korean through play with interactive lessons and personalized learning paths.',
+		images: ['/landing.png'],
 	},
 	robots: 'index, follow',
 };
