@@ -12,9 +12,9 @@ import HTMLFlipBook from 'react-pageflip';
 function PDFViewer() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const flipBookRef = useRef<any>(null);
-  const params = useParams<{ idd: string }>();
+  const params = useParams<{ id: string }>();
   const router = useRouter();
-  const lectureId = params.idd;
+  const lectureId = params.id;
   const { data } = useGetLecture(lectureId ?? '');
   const { data: lesson } = useGetLesson(data?.lesson_id)
   const [pdfUrl, setPdfUrl] = useState<string | undefined>();
