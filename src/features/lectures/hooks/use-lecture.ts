@@ -6,20 +6,11 @@ import {
   useGetLectures,
   type LectureRecord,
 } from '@/features/lectures/hooks/use-get-lectures';
-import {
-  useGetLessons,
-  type LessonRecord,
-} from '@/features/lessons/hooks/use-get-lessons';
 import { useMemo } from 'react';
 
-export type LessonWithLectures = {
-  lesson: LessonRecord;
-  lectures: LectureRecord[];
-};
-
-export type CourseWithLessons = {
+export type CourseWithLectures = {
   course: CourseRecord;
-  lessons: LessonWithLectures[];
+  lectures: LectureRecord[];
 };
 
 export type LanguagePair = {
@@ -34,21 +25,16 @@ export const useLecture = (languagePair?: LanguagePair | null) => {
     error: coursesError,
   } = useGetCourses();
   const {
-    data: lessons,
-    isLoading: isLessonsLoading,
-    error: lessonsError,
-  } = useGetLessons();
-  const {
     data: lectures,
     isLoading: isLecturesLoading,
     error: lecturesError,
   } = useGetLectures();
 
-  const isLoading = isCoursesLoading || isLessonsLoading || isLecturesLoading;
-  const error = coursesError || lessonsError || lecturesError;
+  const isLoading = isCoursesLoading || isLecturesLoading;
+  const error = coursesError || lecturesError;
 
-  const data: CourseWithLessons[] | undefined = useMemo(() => {
-    if (!courses || !lessons || !lectures) return undefined;
+  const data: CourseWithLectures[] | undefined = useMemo(() => {
+    if (!courses || !lectures) return undefined;
 
     // Filter courses by language pair if provided
     const filteredCourses = languagePair
@@ -59,30 +45,27 @@ export const useLecture = (languagePair?: LanguagePair | null) => {
         )
       : courses;
 
-    return (
-      filteredCourses
-        .map((course) => {
-          const lessonsForCourse = lessons
-            .filter((l) => l.course_id === course.id)
-            .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0));
+    return filteredCourses
+      .map((course) => {
+        // Get lectures for this course and sort by order_index
+        const lecturesForCourse = lectures
+          .filter((lecture) => lecture.course_id === course.id)
+          .sort((a, b) => {
+            const orderA = parseInt(a.order_index ?? '0');
+            const orderB = parseInt(b.order_index ?? '0');
+            return orderA - orderB;
+          });
 
-          const lessonsWithLectures: LessonWithLectures[] = lessonsForCourse
-            .map((lesson) => ({
-              lesson,
-              lectures: lectures.filter(
-                (lec) =>
-                  lec.course_id === course.id && lec.lesson_id === lesson.id,
-              ),
-            }))
-            // Only keep lessons that actually have lectures
-            .filter((x) => x.lectures.length > 0);
-
-          return { course, lessons: lessonsWithLectures };
-        })
-        // Only keep courses that have at least one lesson with lectures
-        .filter((c) => c.lessons.length > 0)
-    );
-  }, [courses, lessons, lectures, languagePair]);
+        return {
+          course,
+          lectures: lecturesForCourse,
+        };
+      })
+      // Only keep courses that have at least one lecture
+      .filter((c) => c.lectures.length > 0)
+      // Sort courses by their order_index
+      .sort((a, b) => (a.course.order_index ?? 0) - (b.course.order_index ?? 0));
+  }, [courses, lectures, languagePair]);
 
   return { data, isLoading, error };
 };
