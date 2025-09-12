@@ -1,12 +1,32 @@
 'use client';
+
 import { Button } from '@/components/ui/button';
 import { useGetLecture } from '@/features/lectures/hooks/use-get-lecture';
 import { useGetLesson } from '@/features/lessons/hooks/use-get-lesson';
-import { ArrowLeft, ChevronLeft, ChevronRight, Download, Loader2 } from 'lucide-react';
+import {
+  ArrowLeft,
+  ChevronLeft,
+  ChevronRight,
+  Download,
+  Loader2,
+  Maximize,
+  Minimize,
+} from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
-import { getDocument, GlobalWorkerOptions, PDFDocumentProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
-import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  getDocument,
+  GlobalWorkerOptions,
+  PDFDocumentProxy,
+} from 'pdfjs-dist/legacy/build/pdf.mjs';
+import {
+  Suspense,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import HTMLFlipBook from 'react-pageflip';
 
 function PDFViewer() {
@@ -16,7 +36,7 @@ function PDFViewer() {
   const router = useRouter();
   const lectureId = params.id;
   const { data } = useGetLecture(lectureId ?? '');
-  const { data: lesson } = useGetLesson(data?.lesson_id)
+  const { data: lesson } = useGetLesson(data?.lesson_id);
   const [pdfUrl, setPdfUrl] = useState<string | undefined>();
   const [pages, setPages] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -29,9 +49,13 @@ function PDFViewer() {
     height: 600,
   });
   const [pdfAspectRatio, setPdfAspectRatio] = useState<number>(0.7);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [showShortcuts, setShowShortcuts] = useState<boolean>(false);
   useEffect(() => {
     console.log({ data });
-    if (data?.file_url) { setPdfUrl(data?.file_url); }
+    if (data?.file_url) {
+      setPdfUrl(data?.file_url);
+    }
   }, [data]);
 
   // Configure PDF.js worker
@@ -46,7 +70,7 @@ function PDFViewer() {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
 
-    const padding = 24; // 12px padding each side
+    const padding = isFullscreen ? 0 : 24; // More padding in fullscreen
     const availableWidth = rect.width - padding;
     const availableHeight = rect.height - padding;
 
@@ -64,22 +88,27 @@ function PDFViewer() {
     }
 
     // Apply reasonable constraints
-    width = Math.max(Math.min(width, 900), 200);
+    const maxWidth = isFullscreen ? 1200 : 900;
+    const minWidth = isFullscreen ? 300 : 200;
+    width = Math.max(Math.min(width, maxWidth), minWidth);
     height = Math.max(Math.min(height, availableHeight), 300);
 
     const newSize = {
       width: Math.round(width),
-      height: Math.round(height)
+      height: Math.round(height),
     };
 
     // Only update if size actually changed
-    setPageSize(prevSize => {
-      if (prevSize.width !== newSize.width || prevSize.height !== newSize.height) {
+    setPageSize((prevSize) => {
+      if (
+        prevSize.width !== newSize.width ||
+        prevSize.height !== newSize.height
+      ) {
         return newSize;
       }
       return prevSize;
     });
-  }, [pdfAspectRatio]);
+  }, [pdfAspectRatio, isFullscreen]);
 
   // Navigation functions
   const goToNextPage = useCallback(() => {
@@ -98,7 +127,49 @@ function PDFViewer() {
     router.push('/');
   }, [router]);
 
-  // Recalculate page size on window resize  
+  // Fullscreen functionality
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement
+        .requestFullscreen()
+        .then(() => {
+          setIsFullscreen(true);
+          setShowShortcuts(true);
+          setTimeout(() => setShowShortcuts(false), 3000);
+        })
+        .catch((err) => {
+          console.error('Error attempting to enable fullscreen:', err);
+        });
+    } else {
+      document
+        .exitFullscreen()
+        .then(() => {
+          setIsFullscreen(false);
+          setShowShortcuts(false);
+        })
+        .catch((err) => {
+          console.error('Error attempting to exit fullscreen:', err);
+        });
+    }
+  }, []);
+
+  // Listen for fullscreen changes (e.g., pressing Esc)
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      const isNowFullscreen = !!document.fullscreenElement;
+      setIsFullscreen(isNowFullscreen);
+      if (!isNowFullscreen) {
+        setShowShortcuts(false);
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  // Recalculate page size on window resize
   useEffect(() => {
     // Initial calculation
     calculatePageSize();
@@ -108,10 +179,10 @@ function PDFViewer() {
     return () => window.removeEventListener('resize', calculatePageSize);
   }, [calculatePageSize]);
 
-  // Recalculate when PDF aspect ratio changes
+  // Recalculate when PDF aspect ratio changes or fullscreen toggles
   useEffect(() => {
     calculatePageSize();
-  }, [pdfAspectRatio, calculatePageSize]);
+  }, [pdfAspectRatio, isFullscreen, calculatePageSize]);
 
   // Keyboard navigation
   useEffect(() => {
@@ -125,12 +196,18 @@ function PDFViewer() {
       } else if (e.key === 'Home') {
         e.preventDefault();
         goHome();
+      } else if (e.key === 'f' || e.key === 'F11') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'Escape' && isFullscreen) {
+        e.preventDefault();
+        toggleFullscreen();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [goToPreviousPage, goToNextPage, goHome]);
+  }, [goToPreviousPage, goToNextPage, goHome, toggleFullscreen, isFullscreen]);
 
   // Load and render PDF pages
   useEffect(() => {
@@ -141,7 +218,8 @@ function PDFViewer() {
       setPages([]);
       try {
         // Use proxy API for external URLs to avoid CORS issues
-        const isExternalUrl = pdfUrl?.startsWith('http://') || pdfUrl?.startsWith('https://');
+        const isExternalUrl =
+          pdfUrl?.startsWith('http://') || pdfUrl?.startsWith('https://');
         if (!pdfUrl) throw new Error('No PDF URL specified');
         const fetchUrl = isExternalUrl
           ? `/api/pdf-proxy?url=${encodeURIComponent(pdfUrl)}`
@@ -204,55 +282,80 @@ function PDFViewer() {
   }, [pdfUrl]);
 
   return (
-    <div className="flex h-screen flex-col bg-neutral-200 group">
-      <div className="bg-neutral-50 border-b border-neutral-100">
-        <div className="lg:mx-[5vw] py-5 flex items-center justify-between px-5 md:px-10">
-          <Button
-            variant="ghost"
-            onClick={goHome}
-            className='h-auto'
-          >
-            <div
-              className="flex items-center gap-5"
-            >
-              <ArrowLeft className="size-4" />
-              {pdfUrl && lesson ?
-                <div className='flex flex-col items-start'>
-                  <span className="text-sm ">You&apos;re reading</span>
-                  <span className="text-lg font-semibold">Lesson {lesson?.order_index} - {lesson?.title}</span>
-                </div>
-                : 
-                <p>Back to Homepage</p>
-              }
-            </div>
-          </Button>
-          <a href={pdfUrl} target="_blank" rel="noreferrer">
-            <Button variant={'secondary'} title="Download PDF">
-              <Download className="size-4" />
-              <span className="hidden sm:inline ml-2">Download as PDF</span>
+    <div
+      className={`group flex h-screen flex-col transition-colors duration-300 ${isFullscreen ? 'bg-black' : 'bg-neutral-200'}`}
+    >
+      {/* Header - hide in fullscreen mode */}
+      {!isFullscreen && (
+        <div className="border-b border-neutral-100 bg-neutral-50 transition-all duration-300">
+          <div className="flex items-center justify-between px-5 py-5 md:px-10 lg:mx-[5vw]">
+            <Button variant="ghost" onClick={goHome} className="h-auto">
+              <div className="flex items-center gap-5">
+                <ArrowLeft className="size-4" />
+                {pdfUrl && lesson ? (
+                  <div className="flex flex-col items-start">
+                    <span className="text-sm">You&apos;re reading</span>
+                    <span className="text-lg font-semibold">
+                      {data?.title ??
+                        `Lesson ${lesson.order_index} - ${lesson.title}`}
+                    </span>
+                  </div>
+                ) : (
+                  <p>Back to Homepage</p>
+                )}
+              </div>
             </Button>
-          </a>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                onClick={toggleFullscreen}
+                title={
+                  isFullscreen
+                    ? 'Exit fullscreen (F or Esc)'
+                    : 'Enter fullscreen (F)'
+                }
+                className="h-9 w-9 p-0"
+              >
+                {isFullscreen ? (
+                  <Minimize className="size-4" />
+                ) : (
+                  <Maximize className="size-4" />
+                )}
+              </Button>
+              <a href={pdfUrl} target="_blank" rel="noreferrer">
+                <Button variant={'secondary'} title="Download PDF">
+                  <Download className="size-4" />
+                  <span className="ml-2 hidden sm:inline">Download as PDF</span>
+                </Button>
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Viewer container */}
-      <div
-        ref={containerRef}
-        className="min-h-0 flex-1 overflow-hidden"
-      >
+      <div ref={containerRef} className="min-h-0 flex-1 overflow-hidden">
         {loading && (
-          <div className="flex h-full items-center justify-center gap-2 text-muted-foreground">
+          <div
+            className={`flex h-full items-center justify-center gap-2 ${
+              isFullscreen ? 'text-white' : 'text-muted-foreground'
+            }`}
+          >
             <Loader2 className="size-5 animate-spin" />
-            {pdfUrl?.startsWith('http') ? 'Loading PDF via proxy...' : 'Loading PDF...'}
+            {pdfUrl?.startsWith('http') ? 'Loading PDF...' : 'Loading PDF...'}
           </div>
         )}
         {error && !loading && (
-          <div className="flex h-full items-center justify-center text-sm text-red-500">
+          <div
+            className={`flex h-full items-center justify-center text-sm ${
+              isFullscreen ? 'text-red-400' : 'text-red-500'
+            }`}
+          >
             {error}
           </div>
         )}
         {!loading && !error && pages.length > 0 && (
-          <div className="flex h-full w-full items-center justify-center relative shadow-2xl">
+          <div className="relative flex h-full w-full items-center justify-center shadow-2xl">
             <HTMLFlipBook
               ref={flipBookRef}
               width={pageSize.width}
@@ -281,11 +384,14 @@ function PDFViewer() {
               onFlip={(e) => setCurrentPage(e.data)}
             >
               {pages.map((src, idx) => (
-                <div key={idx} className="bg-background flex items-center justify-center">
+                <div
+                  key={idx}
+                  className="bg-background flex items-center justify-center"
+                >
                   <Image
                     src={src}
                     alt={`Page ${idx + 1}`}
-                    className="max-w-full w-full max-h-full h-full object-contain"
+                    className="h-full max-h-full w-full max-w-full object-contain"
                     draggable={false}
                     fill
                   />
@@ -297,33 +403,101 @@ function PDFViewer() {
 
         {/* Navigation Controls - Fixed position for mobile */}
         {!loading && !error && pages.length > 0 && (
-          <div className="group-hover:opacity-100 sm:opacity-0 fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50">
-            <div className="flex items-center gap-2 bg-background/90 backdrop-blur-sm border rounded-full px-2 py-2 shadow-lg">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={goToPreviousPage}
-                disabled={currentPage === 0}
-                className="rounded-full p-2"
+          <>
+            {/* Main navigation controls */}
+            <div className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 transform group-hover:opacity-100 sm:opacity-0">
+              <div
+                className={`flex items-center gap-2 rounded-full border px-2 py-2 shadow-lg backdrop-blur-sm ${
+                  isFullscreen
+                    ? 'border-neutral-700 bg-black/80'
+                    : 'bg-background/90'
+                }`}
               >
-                <ChevronLeft className="size-5" />
-              </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 0}
+                  className={`rounded-full p-2 ${
+                    isFullscreen ? 'text-white hover:bg-neutral-800' : ''
+                  }`}
+                >
+                  <ChevronLeft className="size-5" />
+                </Button>
 
-              <div className="text-sm font-medium px-2 min-w-[80px] text-center">
-                {currentPage + 1} / {totalPages}
+                <div
+                  className={`min-w-[80px] px-2 text-center text-sm font-medium ${
+                    isFullscreen ? 'text-white' : ''
+                  }`}
+                >
+                  {currentPage + 1} / {totalPages}
+                </div>
+
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={goToNextPage}
+                  disabled={currentPage >= totalPages - 1}
+                  className={`rounded-full p-2 ${
+                    isFullscreen ? 'text-white hover:bg-neutral-800' : ''
+                  }`}
+                >
+                  <ChevronRight className="size-5" />
+                </Button>
               </div>
-
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={goToNextPage}
-                disabled={currentPage >= totalPages - 1}
-                className="rounded-full p-2"
-              >
-                <ChevronRight className="size-5" />
-              </Button>
             </div>
-          </div>
+
+            {/* Fullscreen controls - only show in fullscreen */}
+            {isFullscreen && (
+              <div className="fixed top-6 right-6 z-50">
+                <div className="flex items-center gap-2 rounded-full border border-neutral-700 bg-black/80 px-2 py-2 shadow-lg backdrop-blur-sm">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={toggleFullscreen}
+                    title="Exit fullscreen (F or Esc)"
+                    className="hover:text-background rounded-full p-2 text-white hover:bg-neutral-800"
+                  >
+                    <Minimize className="size-4" />
+                  </Button>
+                  <a href={pdfUrl} target="_blank" rel="noreferrer">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      title="Download PDF"
+                      className="hover:text-background rounded-full p-2 text-white hover:bg-neutral-800"
+                    >
+                      <Download className="size-4" />
+                    </Button>
+                  </a>
+                </div>
+              </div>
+            )}
+            {/* Keyboard shortcuts help - only show in fullscreen */}
+            {isFullscreen && showShortcuts && (
+              <div className="fixed top-6 left-6 z-50">
+                <div className="rounded-lg border border-neutral-700 bg-black/90 p-4 text-white shadow-lg backdrop-blur-sm">
+                  <h3 className="mb-2 text-sm font-semibold">
+                    Keyboard Shortcuts
+                  </h3>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between gap-4">
+                      <span>Navigate:</span>
+                      <span className="text-neutral-300">← → ↑ ↓</span>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <span>Exit fullscreen:</span>
+                      <span className="text-neutral-300">F or Esc</span>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <span>Home:</span>
+                      <span className="text-neutral-300">Home</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
@@ -332,11 +506,13 @@ function PDFViewer() {
 
 export default function Page() {
   return (
-    <Suspense fallback={
-      <div className="flex h-screen items-center justify-center">
-        <Loader2 className="size-6 animate-spin" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex h-screen items-center justify-center">
+          <Loader2 className="size-6 animate-spin" />
+        </div>
+      }
+    >
       <PDFViewer />
     </Suspense>
   );
