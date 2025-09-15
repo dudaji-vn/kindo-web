@@ -42,6 +42,23 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   onChange,
   availableLanguagePairs,
 }) => {
+  // Detect browser language
+  React.useEffect(() => {
+    if (!value && availableLanguagePairs.length > 0) {
+      let browserLang =
+        typeof navigator !== 'undefined' && navigator.language
+          ? navigator.language.split('-')[0]
+          : 'en';
+      // Tìm cặp có sourceLanguage trùng với browserLang
+      const found = availableLanguagePairs.find(
+        (pair) => pair.sourceLanguage === browserLang,
+      );
+      if (found) {
+        onChange(found);
+      }
+    }
+  }, [value, availableLanguagePairs, onChange]);
+
   const getValue = (): string => {
     if (!value) return '';
     return `${value.sourceLanguage}-${value.targetLanguage}`;

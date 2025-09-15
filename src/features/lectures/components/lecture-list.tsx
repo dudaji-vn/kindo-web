@@ -39,7 +39,7 @@ const LectureList: React.FC<LectureListProps> = ({ languagePair }) => {
         </div>
       )}
 
-      {data?.map(({ course, lessons }, index) => (
+      {data?.map(({ course, lectures }, index) => (
         <React.Fragment key={course.id}>
           {index !== 0 && <div className="border-b border-neutral-100" />}
           <div key={course.id} className="grid gap-5">
@@ -54,17 +54,12 @@ const LectureList: React.FC<LectureListProps> = ({ languagePair }) => {
                 width: '100%',
               }}
             >
-              {/* Lessons inside the course */}
-              {lessons.map(({ lesson, lectures }, idx1) => (
-                <React.Fragment key={lesson.id}>
-                  {lectures?.map((lec, idx2) => (
-                    <LectureCard
-                      key={`${idx1}-${idx2}`}
-                      lecture={lec}
-                      lesson={lesson}
-                    />
-                  ))}
-                </React.Fragment>
+              {/* Lectures directly in the course */}
+              {lectures?.map((lecture, idx) => (
+                <LectureCard
+                  key={`${course.id}-${lecture.id}-${idx}`}
+                  lecture={lecture}
+                />
               ))}
             </div>
           </div>

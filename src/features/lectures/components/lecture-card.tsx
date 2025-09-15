@@ -1,15 +1,8 @@
 import { LectureRecord } from '@/features/lectures/hooks/use-get-lectures';
-import { LessonRecord } from '@/features/lessons/hooks/use-get-lessons';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const LectureCard = ({
-  lecture,
-  lesson,
-}: {
-  lecture: LectureRecord;
-  lesson: LessonRecord;
-}) => {
+const LectureCard = ({ lecture }: { lecture: LectureRecord }) => {
   return (
     <div className="block self-start">
       <Link
@@ -29,10 +22,10 @@ const LectureCard = ({
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center p-4">
               <div className="text font-medium">
-                {lesson.title || 'Untitled Lesson'}
+                {lecture.title || 'Untitled Lecture'}
               </div>
               <div className="mt-1 text-sm opacity-90">
-                {lesson.sub_title || 'No Subtitle'}
+                Lecture {lecture.order_index || 'N/A'}
               </div>
             </div>
           )}
@@ -40,7 +33,7 @@ const LectureCard = ({
 
         {/* Title below card */}
         <div className="mt-2 w-full px-2 pb-1 text-lg font-semibold">
-          {lecture.title ?? `Lesson ${lesson.order_index} - ${lesson.title}`}
+          {lecture.title || `Lecture ${lecture.order_index || 'N/A'}`}
         </div>
       </Link>
     </div>
