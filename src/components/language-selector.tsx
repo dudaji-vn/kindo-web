@@ -45,7 +45,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   // Detect browser language
   React.useEffect(() => {
     if (!value && availableLanguagePairs.length > 0) {
-      let browserLang =
+      const browserLang =
         typeof navigator !== 'undefined' && navigator.language
           ? navigator.language.split('-')[0]
           : 'en';
