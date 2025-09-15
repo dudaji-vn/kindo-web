@@ -15,9 +15,11 @@ const LectureCard = ({ lecture }: { lecture: LectureRecord }) => {
           {lecture.cover_image_url ? (
             <Image
               src={lecture.cover_image_url}
-              objectFit="cover"
               fill
               alt="Lecture Cover"
+              className="object-cover"
+              sizes="150px"
+              priority
             />
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center p-4">

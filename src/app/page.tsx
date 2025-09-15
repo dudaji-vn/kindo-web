@@ -6,37 +6,43 @@ import LanguageSelector, {
 import { useAvailableLanguagePairs } from '@/features/courses/hooks/use-available-language-pairs';
 import LectureList from '@/features/lectures/components/lecture-list';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 export default function Home() {
   const { availableLanguagePairs } = useAvailableLanguagePairs();
   const [selectedLanguagePair, setSelectedLanguagePair] =
     useState<LanguagePair | null>(null);
+  const [hasLoadedFromStorage, setHasLoadedFromStorage] = useState(false);
 
   // Load saved language pair from localStorage on mount
   useEffect(() => {
     const saved = localStorage.getItem('selectedLanguagePair');
     if (saved) {
       try {
-        setSelectedLanguagePair(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        setSelectedLanguagePair(parsed);
       } catch {
         // Ignore invalid JSON
       }
     }
+    setHasLoadedFromStorage(true);
   }, []);
 
   // Save language pair to localStorage when it changes
-  const handleLanguagePairChange = (languagePair: LanguagePair | null) => {
-    setSelectedLanguagePair(languagePair);
-    if (languagePair) {
-      localStorage.setItem(
-        'selectedLanguagePair',
-        JSON.stringify(languagePair),
-      );
-    } else {
-      localStorage.removeItem('selectedLanguagePair');
-    }
-  };
+  const handleLanguagePairChange = useCallback(
+    (languagePair: LanguagePair | null) => {
+      setSelectedLanguagePair(languagePair);
+      if (languagePair) {
+        localStorage.setItem(
+          'selectedLanguagePair',
+          JSON.stringify(languagePair),
+        );
+      } else {
+        localStorage.removeItem('selectedLanguagePair');
+      }
+    },
+    [],
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,6 +55,7 @@ export default function Home() {
               width="136"
               height="40"
               alt="Kindo Logo"
+              priority
             />
             <span className="text-lg font-bold text-neutral-800 dark:text-neutral-200">
               Online Lecture
@@ -61,6 +68,7 @@ export default function Home() {
               value={selectedLanguagePair}
               onChange={handleLanguagePairChange}
               availableLanguagePairs={availableLanguagePairs}
+              hasLoadedFromStorage={hasLoadedFromStorage}
             />
           </div>
         </div>
