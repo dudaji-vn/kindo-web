@@ -18,6 +18,7 @@ type LanguageSelectorProps = {
   value: LanguagePair | null;
   onChange: (value: LanguagePair | null) => void;
   availableLanguagePairs: LanguagePair[];
+  hasLoadedFromStorage?: boolean;
 };
 
 const getLanguageDisplayName = (code: string): string => {
@@ -41,13 +42,52 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   value,
   onChange,
   availableLanguagePairs,
+  hasLoadedFromStorage = false,
 }) => {
+  const [hasUserSelected, setHasUserSelected] = React.useState(false);
+
+  // Detect browser language only when user hasn't made any selection and storage has been loaded
+  React.useEffect(() => {
+    console.log({
+      value,
+      availableLanguagePairs,
+      hasUserSelected,
+      hasLoadedFromStorage,
+    });
+    if (
+      hasLoadedFromStorage &&
+      !hasUserSelected &&
+      !value &&
+      availableLanguagePairs.length > 0
+    ) {
+      const browserLang =
+        typeof navigator !== 'undefined' && navigator.language
+          ? navigator.language.split('-')[0]
+          : 'en';
+      // Tìm cặp có sourceLanguage trùng với browserLang
+      const found = availableLanguagePairs.find(
+        (pair) => pair.sourceLanguage === browserLang,
+      );
+      if (found) {
+        onChange(found);
+      }
+    }
+  }, [
+    value,
+    onChange,
+    availableLanguagePairs,
+    hasUserSelected,
+    hasLoadedFromStorage,
+  ]);
+
   const getValue = (): string => {
     if (!value) return '';
     return `${value.sourceLanguage}-${value.targetLanguage}`;
   };
 
   const handleValueChange = (selectedValue: string) => {
+    setHasUserSelected(true); // Mark that user has made a selection
+
     if (selectedValue === 'all') {
       onChange(null);
       return;
@@ -82,7 +122,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             )}
           </SelectValue>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-background">
           <SelectItem value="all">
             <span className="font-medium">All languages</span>
           </SelectItem>
