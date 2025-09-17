@@ -13,16 +13,18 @@ import {
   DrawerTrigger,
 } from '../ui/drawer';
 
+import { useTranslation } from 'react-i18next';
+
 interface NavigationItem {
-  name: string;
+  key: string; // translation key suffix
   href: string;
   current: boolean;
 }
 
 const navigation: NavigationItem[] = [
-  { name: 'Online Lectures', href: '/lectures', current: false },
-  { name: 'User Guide', href: KINDO_DOCS_URL || '#', current: false },
-  { name: 'Contact Us', href: DUDAJI_VN_CONTACT_URL || '#', current: false },
+  { key: 'ONLINE_LECTURES', href: '/lectures', current: false },
+  { key: 'USER_GUIDE', href: KINDO_DOCS_URL || '#', current: false },
+  { key: 'CONTACT_US', href: DUDAJI_VN_CONTACT_URL || '#', current: false },
 ];
 
 function classNames(...classes: string[]) {
@@ -31,6 +33,7 @@ function classNames(...classes: string[]) {
 
 const Navbar = () => {
   // language handled inside LanguageSelector via store
+  const { t } = useTranslation('common');
   return (
     <nav className="fixed top-0 right-0 left-0 z-50 border-b border-white/20 bg-white/80 px-6 shadow-sm backdrop-blur-md sm:px-10 md:px-[5vw]">
       <div className="mx-auto max-w-7xl py-3">
@@ -62,7 +65,7 @@ const Navbar = () => {
               <div className="flex space-x-4">
                 {navigation.map((item) => (
                   <Link
-                    key={item.name}
+                    key={item.key}
                     href={item.href}
                     className={classNames(
                       item.current
@@ -72,30 +75,24 @@ const Navbar = () => {
                     )}
                     aria-current={item.current ? 'page' : undefined}
                   >
-                    {item.name}
+                    {t(`NAVBAR.${item.key}`)}
                   </Link>
                 ))}
               </div>
               <LanguageSelector />
             </div>
           </div>
-          <Drawer direction="top">
+          <Drawer direction="left">
             <DrawerTrigger>
               <Menu
                 className="block h-6 w-6 cursor-pointer text-gray-700 transition-colors hover:text-orange-500 lg:hidden"
                 aria-hidden="true"
               />
             </DrawerTrigger>
-            <DrawerContent className="">
-              <DrawerHeader>
-                <DrawerTitle>Are you absolutely sure?</DrawerTitle>
-                {/* <DrawerDescription>
-                  This action cannot be undone.
-                </DrawerDescription> */}
-              </DrawerHeader>
+            <DrawerContent>
               {/* <Drawerdata /> */}
-              <div className="fixed top-0 right-0 left-0 z-50 border-b border-white/20 bg-white/80 px-6 shadow-sm backdrop-blur-md sm:px-10 md:px-[5vw]">
-                <div className="flex flex-1 items-center py-3 sm:items-stretch sm:justify-between">
+              <div className="border-b border-white/20 bg-white/80 px-6 shadow-sm backdrop-blur-md sm:px-10 md:px-[5vw]">
+                <div className="flex flex-1 items-center py-2 sm:items-stretch sm:justify-between">
                   {/* LOGO */}
 
                   <div className="flex flex-shrink-0 items-center">
@@ -118,33 +115,33 @@ const Navbar = () => {
                       </Link>
                     </DrawerClose>
                   </div>
-
-                  <DrawerClose>
-                    <Menu
-                      className="block h-6 w-6 cursor-pointer text-gray-700 transition-colors hover:text-orange-500"
-                      aria-hidden="true"
-                    />
-                  </DrawerClose>
                 </div>
               </div>
-              <div className="space-y-4 px-5 pt-5 pb-5">
-                {navigation.map((item, index) => (
-                  <DrawerClose asChild key={index}>
-                    <Link
-                      href={item.href}
-                      className={classNames(
-                        item.current
-                          ? 'text-black hover:opacity-100'
-                          : 'hover:text-black hover:opacity-100',
-                        'block px-2 py-1 text-center text-lg font-normal opacity-75',
-                      )}
-                      aria-current={item.current ? 'page' : undefined}
-                    >
-                      {item.name}
-                    </Link>
-                  </DrawerClose>
-                ))}
-                <div className="mt-6 flex justify-center">
+              <DrawerHeader>
+                <DrawerTitle className="px-3">
+                  {t('NAVBAR.DRAWER_TITLE')}
+                </DrawerTitle>
+              </DrawerHeader>
+              <div className="flex h-full flex-col gap-10 pt-0 pb-5">
+                <div className="grid gap-3 px-5">
+                  {navigation.map((item, index) => (
+                    <DrawerClose asChild key={index}>
+                      <Link
+                        href={item.href}
+                        className={classNames(
+                          item.current
+                            ? 'text-black hover:opacity-100'
+                            : 'hover:text-black hover:opacity-100',
+                          'block px-2 py-1 text-lg font-normal opacity-75',
+                        )}
+                        aria-current={item.current ? 'page' : undefined}
+                      >
+                        {t(`NAVBAR.${item.key}`)}
+                      </Link>
+                    </DrawerClose>
+                  ))}
+                </div>
+                <div className="flex w-full justify-center">
                   <LanguageSelector />
                 </div>
               </div>
