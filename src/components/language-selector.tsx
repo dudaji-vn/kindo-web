@@ -122,7 +122,7 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
             )}
           </SelectValue>
         </SelectTrigger>
-        <SelectContent>
+        <SelectContent className="bg-background">
           <SelectItem value="all">
             <span className="font-medium">All languages</span>
           </SelectItem>
