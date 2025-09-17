@@ -8,16 +8,18 @@ import { KINDO_APP_STORE_URL, KINDO_GOOGLE_STORE_URL } from '@/constant';
 export default function HeroSection() {
   return (
     <>
-      <section className="relative mx-5 mt-[84px] flex max-w-7xl flex-1 justify-center max-md:h-[calc(100dvh-104px)] sm:mx-10 md:mx-[5vw] md:min-h-1/2">
+      <section className="relative mx-5 mt-[84px] flex max-w-7xl flex-1 justify-center max-md:h-[calc(100dvh-104px)] sm:mx-10 md:mx-[5vw] md:mt-24 md:min-h-1/2">
         {/* min-h-[calc(100dvh-64px)] */}
         {/* Download card */}
 
         <div className="relative flex h-full w-full">
-          <div className="z-10 flex w-full px-5 py-5 md:min-w-1/2 md:justify-center md:py-10 lg:px-10">
+          <div className="z-10 flex w-full px-5 py-5 md:min-w-1/2 md:justify-center md:px-10 md:py-10">
             <div className="flex w-full flex-col justify-end gap-3 md:justify-center">
-              <h1 className="mb-6 text-3xl font-semibold text-neutral-800 sm:text-5xl lg:text-6xl">
+              <h1 className="mb-6 text-3xl font-semibold text-neutral-800 md:text-5xl">
                 Learning as{' '}
-                <span className="text-primary block text-7xl">PLAYING</span>
+                <span className="text-primary block text-7xl max-[380px]:text-5xl">
+                  PLAYING
+                </span>
               </h1>
               {/* Download buttons */}
               <div className="flex flex-col gap-3 md:justify-center">

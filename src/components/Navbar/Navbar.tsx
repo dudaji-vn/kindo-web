@@ -1,15 +1,13 @@
 'use client';
-import { Menu } from 'lucide-react';
-import Link from 'next/link';
-import React from 'react';
-import Image from 'next/image';
-import Drawerdata from './Drawerdata';
+import { LanguageSelector } from '@/components/LanguageSelector';
 import { DUDAJI_VN_CONTACT_URL, KINDO_DOCS_URL } from '@/constant';
+import { Menu } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
 import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
@@ -32,6 +30,7 @@ function classNames(...classes: string[]) {
 }
 
 const Navbar = () => {
+  // language handled inside LanguageSelector via store
   return (
     <nav className="fixed top-0 right-0 left-0 z-50 border-b border-white/20 bg-white/80 px-6 shadow-sm backdrop-blur-md sm:px-10 md:px-[5vw]">
       <div className="mx-auto max-w-7xl py-3">
@@ -59,7 +58,7 @@ const Navbar = () => {
             </div>
 
             {/* LINKS */}
-            <div className="ml-20 hidden lg:block">
+            <div className="ml-20 hidden items-center gap-6 lg:flex">
               <div className="flex space-x-4">
                 {navigation.map((item) => (
                   <Link
@@ -71,12 +70,13 @@ const Navbar = () => {
                         : 'hover:text-primary-500 text-neutral-800',
                       'px-3 py-4 font-semibold transition-colors duration-200',
                     )}
-                    aria-current={item.href ? 'page' : undefined}
+                    aria-current={item.current ? 'page' : undefined}
                   >
                     {item.name}
                   </Link>
                 ))}
               </div>
+              <LanguageSelector />
             </div>
           </div>
           <Drawer direction="top">
@@ -127,7 +127,7 @@ const Navbar = () => {
                   </DrawerClose>
                 </div>
               </div>
-              <div className="space-y-1 px-5 pt-5 pb-5">
+              <div className="space-y-4 px-5 pt-5 pb-5">
                 {navigation.map((item, index) => (
                   <DrawerClose asChild key={index}>
                     <Link
@@ -144,6 +144,9 @@ const Navbar = () => {
                     </Link>
                   </DrawerClose>
                 ))}
+                <div className="mt-6 flex justify-center">
+                  <LanguageSelector />
+                </div>
               </div>
             </DrawerContent>
           </Drawer>
