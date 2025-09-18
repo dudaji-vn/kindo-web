@@ -20,7 +20,7 @@ const LectureList: React.FC<LectureListProps> = ({ languagePair }) => {
     );
   }
   return (
-    <div className="flex flex-1 flex-col gap-5 px-5 py-5 md:gap-10 md:px-[5vw]">
+    <div className="flex flex-1 flex-col gap-5 md:gap-10">
       {(!data || data.length === 0) && (
         <div className="py-12 text-center">
           <div className="flex flex-col items-center gap-3">

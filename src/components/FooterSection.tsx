@@ -17,7 +17,7 @@ export default function FooterSection() {
     <>
       {/* Call to Action Section */}
       <section
-        className="relative py-16"
+        className="relative py-10 md:py-16"
         style={{
           backgroundImage: `url(${SVGs.shadow.src}), linear-gradient(to top, #FFF8F1, #FEEEDA)`,
           backgroundRepeat: 'no-repeat',
@@ -27,7 +27,7 @@ export default function FooterSection() {
       >
         {/* Optional stronger gradient overlay (uncomment if needed) */}
         {/* <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#FFF8F1]/90 to-[#FEEEDA]/60" /> */}
-        <div className="mx-auto flex max-w-2xl flex-col justify-center px-4 text-center sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-2xl flex-col justify-center px-4 px-5 text-center sm:px-10 md:px-10">
           <h2 className="mb-6 text-3xl font-bold text-neutral-800 lg:text-4xl">
             {t('HOMEPAGE.CTA.title')}
           </h2>
