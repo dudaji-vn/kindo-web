@@ -7,7 +7,7 @@ import { useAppStore } from '@/stores/app.store';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const language = useAppStore((state) => state.language);
+  const { language } = useAppStore();
 
   const { availableLanguagePairs } = useAvailableLanguagePairs();
   const [selectedLanguagePair, setSelectedLanguagePair] =
@@ -27,9 +27,11 @@ export default function Home() {
   }, [language, availableLanguagePairs]);
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="flex justify-center px-5 pt-16 sm:px-10 md:px-[5vw]">
       {/* Main Content */}
-      <LectureList languagePair={selectedLanguagePair} />
+      <div className="w-full max-w-7xl py-5">
+        <LectureList languagePair={selectedLanguagePair} />
+      </div>
     </div>
   );
 }

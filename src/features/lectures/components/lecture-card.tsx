@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const LectureCard = ({ lecture }: { lecture: LectureRecord }) => {
   return (
-    <div className="block self-start">
+    <div className="self-start">
       <Link
         className="group flex flex-col items-center rounded-lg bg-transparent transition-transform hover:scale-[1.02] sm:w-[150px]"
         href={`/book/${lecture.id}` || '#'}
