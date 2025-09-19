@@ -1,0 +1,8 @@
+export const DUDAJI_VN_URL = process.env.NEXT_PUBLIC_DUDAJI_VN_URL!;
+export const DUDAJI_CONTACT_MAIL = process.env.NEXT_PUBLIC_DUDAJI_CONTACT_MAIL!;
+export const KINDO_APP_STORE_URL = process.env.NEXT_PUBLIC_KINDO_APP_STORE_URL!;
+export const KINDO_GOOGLE_STORE_URL =
+  process.env.NEXT_PUBLIC_KINDO_GOOGLE_STORE_URL!;
+export const KINDO_DOCS_URL = process.env.NEXT_PUBLIC_KINDO_DOCS_URL!;
+export const DUDAJI_VN_CONTACT_URL =
+  process.env.NEXT_PUBLIC_DUDAJI_VN_CONTACT_URL!;

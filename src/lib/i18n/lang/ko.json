@@ -1,0 +1,58 @@
+{
+  "HOMEPAGE": {
+    "COMMON": {
+      "downloadOnThe": "Download on the",
+      "appStore": "App Store",
+      "getItOn": "Get it on",
+      "googlePlay": "Google Play"
+    },
+    "HERO": {
+      "titlePrefix": "Learning as",
+      "titleEmphasis": "PLAYING",
+      "downloadNowAt": "Download now at",
+      "intro": "(ko) Kindo is a mobile application designed to help users learn the Korean language through engaging, gamified lessons.",
+      "differentiationTitle": "(ko) What sets us apart in the market:",
+      "features": {
+        "virtualKeyboard": {
+          "title": "(ko) First-step Virtual Keyboard",
+          "description": "(ko) We are the first app to feature a built-in Korean virtual keyboard, providing a seamless experience for users to practice writing."
+        },
+        "aiIntegration": {
+          "title": "(ko) A.I. Integration",
+          "description": "(ko) Our use of A.I. personalized conversation practice and adapts to each user's level, enhancing the learning experience."
+        }
+      }
+    },
+    "FEATURES": {
+      "label": "(ko) Key Feature",
+      "gamified": {
+        "title": "(ko) Gamified Learning",
+        "description": "(ko) Kindo transforms language acquisition into an engaging experience with interactive question-and-answer formats, giving learners the flexibility to focus on specific topics of interest."
+      },
+      "lessonLibrary": {
+        "title": "(ko) Extensive Lesson Library",
+        "description": "(ko) The platform provides over 150 lessons in basic, intermediate, organized into three distinct levels, with approximately 50 lessons per level. This structured curriculum is designed to help learners achieve fluency."
+      },
+      "badges": {
+        "title": "(ko) Incentive Badges",
+        "description": "(ko) Learners are motivated through a visually appealing badge system. These badges can be collected and shared with friends, fostering a sense of accomplishment and community."
+      },
+      "aiPractice": {
+        "title": "(ko) AI-Powered Practice",
+        "description": "(ko) The chatbot offers personalized conversations, covering all four language skills: listening, reading, writing, and speaking. Each session is followed by a detailed performance review to guide specific improvement."
+      }
+    },
+    "CTA": {
+      "title": "(ko) Ready to get started?",
+      "subtitle": "(ko) Download App Now"
+    },
+    "FOOTER": {
+      "aboutLabel": "(ko) About us",
+      "companyName": "(ko) DUDAJI VIETNAM",
+      "aboutParagraph1": "(ko) Dudaji supports you to quickly build a deep learning utilization service in a timely and timely place.",
+      "aboutParagraph2": "(ko) To put machine learning and deep learning techniques into practice, you can not only design algorithms, but also there is a great need for infrastructure know-how, such as data preprocessing, building a distributed development environment, resource management, and process management. Based on the experience of conducting various AI projects, Dudaji accelerates the implementation of related data and ideas as a service quickly.",
+      "copyright": "(ko) Dudaji, Inc © All Rights Reserved.",
+      "contactEmail": "contact@dudaji.vn"
+    }
+  }
+}

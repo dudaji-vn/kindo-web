@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const LectureCard = ({ lecture }: { lecture: LectureRecord }) => {
   return (
-    <div className="block self-start">
+    <div className="self-start">
       <Link
         className="group flex flex-col items-center rounded-lg bg-transparent transition-transform hover:scale-[1.02] sm:w-[150px]"
         href={`/book/${lecture.id}` || '#'}
@@ -15,9 +15,11 @@ const LectureCard = ({ lecture }: { lecture: LectureRecord }) => {
           {lecture.cover_image_url ? (
             <Image
               src={lecture.cover_image_url}
-              objectFit="cover"
               fill
               alt="Lecture Cover"
+              className="object-cover"
+              sizes="150px"
+              priority
             />
           ) : (
             <div className="flex flex-1 flex-col items-center justify-center p-4">
