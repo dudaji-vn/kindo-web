@@ -10,7 +10,7 @@ export default function FeaturesSection() {
     <section className="">
       {/* Gamified Learning */}
       <div className="w-full bg-neutral-100 px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
           <div className="order-2 md:order-1">
             <div className="mb-4 flex items-center">
               <Star className="text-primary mr-3" />
@@ -37,9 +37,9 @@ export default function FeaturesSection() {
         </div>
       </div>
       {/* Extensive Lesson Library */}
-      <div className="w-full px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
+      <div className="w-full px-5 pt-10 sm:px-10 md:px-[5vw] md:pt-14 lg:pt-24">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-24">
             <div className="relative aspect-[5/4] w-full overflow-hidden">
               <Image
                 src={Images.homepage.extensiveLessonLibrary}
@@ -68,8 +68,8 @@ export default function FeaturesSection() {
       </div>
       {/* Incentive Badges */}
       <>
-        <div className="w-full bg-neutral-100 px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
+        <div className="w-full bg-neutral-100 px-5 pt-10 sm:px-10 md:px-[5vw] md:pt-14 lg:pt-24">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
             <div className="order-2 md:order-1">
               <div className="mb-4 flex items-center">
                 <Star className="text-primary mr-3" />
@@ -100,7 +100,7 @@ export default function FeaturesSection() {
       </>
       {/* AI-Powered Practice */}
       <div className="w-full px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
           <div className="order-2 sm:order-1">
             <div className="relative">
               <Image
