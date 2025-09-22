@@ -124,7 +124,7 @@ function PDFViewer() {
   }, [currentPage]);
 
   const goHome = useCallback(() => {
-    router.push('/');
+    router.push('/lectures');
   }, [router]);
 
   // Fullscreen functionality
@@ -287,8 +287,8 @@ function PDFViewer() {
     >
       {/* Header - hide in fullscreen mode */}
       {!isFullscreen && (
-        <div className="border-b border-neutral-100 bg-neutral-50 transition-all duration-300">
-          <div className="flex items-center justify-between px-5 py-5 md:px-10 lg:mx-[5vw]">
+        <div className="border-b border-white/20 bg-white/80 shadow-sm transition-all duration-300">
+          <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-5 sm:px-10 md:px-[5vw]">
             <Button variant="ghost" onClick={goHome} className="h-auto">
               <div className="flex items-center gap-5">
                 <ArrowLeft className="size-4" />
@@ -393,6 +393,8 @@ function PDFViewer() {
                     alt={`Page ${idx + 1}`}
                     className="h-full max-h-full w-full max-w-full object-contain"
                     draggable={false}
+                    quality={100}
+                    priority
                     fill
                   />
                 </div>
