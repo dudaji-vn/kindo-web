@@ -26,7 +26,7 @@ export default function HeroSection() {
                   <Link
                     href={
                       KINDO_APP_STORE_URL ||
-                      'https://apps.apple.com/vn/app/kindo-learning-korean/'
+                      'https://apps.apple.com/vn/app/kindo-learning-korean/id6746713860'
                     }
                     target="_blank"
                     className="inline-flex items-center justify-center gap-3 rounded-lg bg-black px-4 py-1 text-white transition-colors hover:bg-gray-800 hover:shadow-md"
