@@ -1,3 +1,4 @@
+'use client';
 import SVGs from '@/assets/SVG';
 import {
   DUDAJI_CONTACT_MAIL,
@@ -8,13 +9,15 @@ import {
 import { ExternalLink, Star } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 export default function FooterSection() {
+  const { t } = useTranslation('common');
   return (
     <>
       {/* Call to Action Section */}
       <section
-        className="relative py-16"
+        className="relative py-10 md:py-16"
         style={{
           backgroundImage: `url(${SVGs.shadow.src}), linear-gradient(to top, #FFF8F1, #FEEEDA)`,
           backgroundRepeat: 'no-repeat',
@@ -24,14 +27,16 @@ export default function FooterSection() {
       >
         {/* Optional stronger gradient overlay (uncomment if needed) */}
         {/* <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#FFF8F1]/90 to-[#FEEEDA]/60" /> */}
-        <div className="mx-auto grid max-w-4xl justify-center px-4 text-center sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-2xl flex-col justify-center px-4 px-5 text-center sm:px-10 md:px-10">
           <h2 className="mb-6 text-3xl font-bold text-neutral-800 lg:text-4xl">
-            Ready to get start?
+            {t('HOMEPAGE.CTA.title')}
           </h2>
-          <p className="mb-8 text-lg text-neutral-800">Download App Now</p>
+          <p className="mb-8 text-lg text-neutral-800">
+            {t('HOMEPAGE.CTA.subtitle')}
+          </p>
 
           {/* Download buttons */}
-          <div className="flex flex-row gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               href={
                 KINDO_APP_STORE_URL ||
@@ -39,9 +44,16 @@ export default function FooterSection() {
               }
               className="inline-flex flex-1 items-center justify-center gap-3 rounded-lg bg-black px-4 py-1 text-white transition-colors hover:bg-gray-800 hover:shadow-md"
             >
-              <div className="text-2xl"></div>
+              <Image
+                src={SVGs.apple_light}
+                alt=""
+                objectFit="contain"
+                height={24}
+                width={20}
+              />
               <div className="min-w-fit truncate text-left text-sm">
-                Download on the <p className="text-2xl">App Store</p>
+                {t('HOMEPAGE.COMMON.downloadOnThe')}{' '}
+                <p className="text-2xl">{t('HOMEPAGE.COMMON.appStore')}</p>
               </div>
             </Link>
             <Link
@@ -59,7 +71,8 @@ export default function FooterSection() {
                 className="mr-2"
               />
               <div className="min-w-fit truncate text-left text-sm">
-                Get it on <p className="text-2xl">Google Play</p>
+                {t('HOMEPAGE.COMMON.getItOn')}{' '}
+                <p className="text-2xl">{t('HOMEPAGE.COMMON.googlePlay')}</p>
               </div>
             </Link>
           </div>
@@ -75,7 +88,7 @@ export default function FooterSection() {
               <div className="mb-4 flex w-fit items-center">
                 <Star className="text-primary mr-3" />
                 <span className="text-primary text-sm font-semibold tracking-wide uppercase">
-                  About us
+                  {t('HOMEPAGE.FOOTER.aboutLabel')}
                 </span>
               </div>
 
@@ -84,36 +97,30 @@ export default function FooterSection() {
                 target="_blank"
                 className="mb-4 flex items-center gap-2 hover:underline"
               >
-                <h3 className="text-2xl font-bold">DUDAJI VIETNAM</h3>
+                <h3 className="text-2xl font-bold">
+                  {t('HOMEPAGE.FOOTER.companyName')}
+                </h3>
                 <ExternalLink />
               </Link>
               <p className="mx-auto max-w-3xl leading-relaxed">
-                Dudaji supports you to quickly build a deep learning utilization
-                service in a timely and timely place.
+                {t('HOMEPAGE.FOOTER.aboutParagraph1')}
               </p>
               <p className="mx-auto mt-4 max-w-3xl leading-relaxed">
-                To put machine learning and deep learning techniques into
-                practice, you can not only design algorithms, but also there is
-                a great need for infrastructure know-how, such as data
-                preprocessing, building a distributed development environment,
-                resource management, and process management.Based on the
-                experience of conducting various AI projects, Dudaji accelerates
-                the implementation of related data and ideas as a service
-                quickly.
+                {t('HOMEPAGE.FOOTER.aboutParagraph2')}
               </p>
             </div>
 
             {/* Copyright */}
             <div className="border-t border-gray-200 pt-8">
               <p className="text-sm text-gray-500">
-                Dudaji, Inc © All Rights Reserved.
+                {t('HOMEPAGE.FOOTER.copyright')}
               </p>
               <p className="mt-2 text-sm text-gray-500">
                 <a
                   href={`mailto:${DUDAJI_CONTACT_MAIL || 'contact@dudaji.vn'}`}
                   className="hover:text-primary-500 transition-colors"
                 >
-                  contact@dudaji.vn
+                  {t('HOMEPAGE.FOOTER.contactEmail')}
                 </a>
               </p>
             </div>

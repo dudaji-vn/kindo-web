@@ -1,0 +1,64 @@
+{
+  "HOMEPAGE": {
+    "COMMON": {
+      "downloadOnThe": "Tải trên",
+      "appStore": "App Store",
+      "getItOn": "Tải từ",
+      "googlePlay": "Google Play"
+    },
+    "HERO": {
+      "titlePrefix": "Học như là",
+      "titleEmphasis": "CHƠI",
+      "downloadNowAt": "Tải ngay tại",
+      "intro": "Kindo là ứng dụng di động giúp người dùng học tiếng Hàn thông qua các bài học thú vị được gamify.",
+      "differentiationTitle": "Điểm khác biệt của chúng tôi trên thị trường:",
+      "features": {
+        "virtualKeyboard": {
+          "title": "Bàn phím ảo đầu tiên",
+          "description": "Chúng tôi là ứng dụng đầu tiên tích hợp bàn phím tiếng Hàn, giúp người học luyện viết mượt mà."
+        },
+        "aiIntegration": {
+          "title": "Tích hợp A.I.",
+          "description": "Việc sử dụng A.I. của chúng tôi cá nhân hóa hội thoại và thích ứng với trình độ từng người học."
+        }
+      }
+    },
+    "FEATURES": {
+      "label": "Tính năng nổi bật",
+      "gamified": {
+        "title": "Học tập gamify",
+        "description": "Kindo biến việc học ngôn ngữ thành trải nghiệm hấp dẫn với dạng hỏi - đáp tương tác, cho phép người học tập trung vào chủ đề quan tâm."
+      },
+      "lessonLibrary": {
+        "title": "Thư viện bài học phong phú",
+        "description": "Nền tảng cung cấp hơn 150 bài học cơ bản, trung cấp được tổ chức thành 3 cấp độ, ~50 bài mỗi cấp, giúp người học tiến tới thành thạo."
+      },
+      "badges": {
+        "title": "Huy hiệu khích lệ",
+        "description": "Người học được tạo động lực thông qua hệ thống huy hiệu bắt mắt, có thể sưu tầm và chia sẻ với bạn bè, tạo cảm giác thành tựu và cộng đồng."
+      },
+      "aiPractice": {
+        "title": "Luyện tập với A.I.",
+        "description": "Chatbot cung cấp hội thoại cá nhân hóa bao gồm nghe, đọc, viết, nói. Mỗi phiên có đánh giá chi tiết để định hướng cải thiện."
+      }
+    },
+    "CTA": {
+      "title": "Sẵn sàng bắt đầu?",
+      "subtitle": "Tải ứng dụng ngay"
+    },
+    "FOOTER": {
+      "aboutLabel": "Về chúng tôi",
+      "companyName": "DUDAJI VIỆT NAM",
+      "aboutParagraph1": "Dudaji hỗ trợ bạn xây dựng nhanh dịch vụ khai thác học sâu kịp thời và đúng chỗ.",
+      "aboutParagraph2": "Để đưa machine learning và deep learning vào thực tế, không chỉ cần thiết kế thuật toán mà còn cần kiến thức hạ tầng: tiền xử lý dữ liệu, xây dựng môi trường phát triển phân tán, quản lý tài nguyên và quy trình. Dựa trên kinh nghiệm thực hiện nhiều dự án AI, Dudaji tăng tốc triển khai dữ liệu và ý tưởng thành dịch vụ nhanh chóng.",
+      "copyright": "Dudaji, Inc © Bảo lưu mọi quyền.",
+      "contactEmail": "contact@dudaji.vn"
+    }
+  },
+  "NAVBAR": {
+    "ONLINE_LECTURES": "Bài giảng trực tuyến",
+    "USER_GUIDE": "Hướng dẫn sử dụng",
+    "CONTACT_US": "Liên hệ",
+    "DRAWER_TITLE": "Menu"
+  }
+}

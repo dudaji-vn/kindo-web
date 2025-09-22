@@ -1,27 +1,28 @@
+'use client';
 import Image from 'next/image';
 import Images from '@/assets/images';
 import { Star } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function FeaturesSection() {
+  const { t } = useTranslation('common');
   return (
     <section className="">
       {/* Gamified Learning */}
       <div className="w-full bg-neutral-100 px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
           <div className="order-2 md:order-1">
             <div className="mb-4 flex items-center">
               <Star className="text-primary mr-3" />
               <span className="text-primary text-sm font-semibold tracking-wide uppercase">
-                Key Feature
+                {t('HOMEPAGE.FEATURES.label')}
               </span>
             </div>
             <h2 className="mb-6 text-3xl font-bold text-gray-900 lg:text-4xl">
-              Gamified Learning
+              {t('HOMEPAGE.FEATURES.gamified.title')}
             </h2>
             <p className="text-lg text-gray-600">
-              Kindo transforms language acquisition into an engaging experience
-              with interactive question-and-answer formats, giving learners the
-              flexibility to focus on specific topics of interest.
+              {t('HOMEPAGE.FEATURES.gamified.description')}
             </p>
           </div>
           <div className="order-1 md:order-2">
@@ -36,33 +37,30 @@ export default function FeaturesSection() {
         </div>
       </div>
       {/* Extensive Lesson Library */}
-      <div className="w-full px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-            <div className="relative aspect-[5/4] w-full overflow-hidden">
+      <div className="w-full px-5 pt-10 sm:px-10 md:px-[5vw] md:pt-14 lg:pt-24">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-24">
+            <div className="relative mt-auto aspect-[5/4] w-full overflow-hidden">
               <Image
                 src={Images.homepage.extensiveLessonLibrary}
                 alt="Extensive Lesson Library"
                 objectFit="cover"
-                className="top-0 w-full"
+                className="bottom-0 w-full"
                 quality={100}
               />
             </div>
-            <div>
+            <div className="pb-10 md:pb-14 lg:pb-24">
               <div className="mb-4 flex items-center">
                 <Star className="text-primary mr-3" />
                 <span className="text-primary text-sm font-semibold tracking-wide uppercase">
-                  Key Feature
+                  {t('HOMEPAGE.FEATURES.label')}
                 </span>
               </div>
               <h2 className="mb-6 text-3xl font-bold text-gray-900 lg:text-4xl">
-                Extensive Lesson Library
+                {t('HOMEPAGE.FEATURES.lessonLibrary.title')}
               </h2>
               <p className="text-lg text-gray-600">
-                The platform provides over 150 lessons in basic, intermediate,
-                organized into three distinct levels, with approximately 50
-                lessons per level. This structured curriculum is designed to
-                help learners achieve fluency.
+                {t('HOMEPAGE.FEATURES.lessonLibrary.description')}
               </p>
             </div>
           </div>
@@ -70,25 +68,23 @@ export default function FeaturesSection() {
       </div>
       {/* Incentive Badges */}
       <>
-        <div className="w-full bg-neutral-100 px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
-            <div className="order-2 lg:order-1">
+        <div className="w-full bg-neutral-100 px-5 pt-10 sm:px-10 md:px-[5vw] md:pt-14 lg:pt-24">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
+            <div className="order-2 pb-10 md:order-1 md:pb-14 lg:pb-24">
               <div className="mb-4 flex items-center">
                 <Star className="text-primary mr-3" />
                 <span className="text-primary text-sm font-semibold tracking-wide uppercase">
-                  Key Feature
+                  {t('HOMEPAGE.FEATURES.label')}
                 </span>
               </div>
               <h2 className="mb-6 text-3xl font-bold text-gray-900 lg:text-4xl">
-                Incentive Badges
+                {t('HOMEPAGE.FEATURES.badges.title')}
               </h2>
               <p className="text-lg text-gray-600">
-                Learners are motivated through a visually appealing badge
-                system. These badges can be collected and shared with friends,
-                fostering a sense of accomplishment and community.
+                {t('HOMEPAGE.FEATURES.badges.description')}
               </p>
             </div>
-            <div className="order-1 lg:order-2">
+            <div className="order-1 md:order-2">
               <div className="relative aspect-[5/4] w-full overflow-hidden">
                 <Image
                   src={Images.homepage.incentiveBadges}
@@ -104,25 +100,8 @@ export default function FeaturesSection() {
       </>
       {/* AI-Powered Practice */}
       <div className="w-full px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
-          <div className="order-2 md:order-1">
-            <div className="mb-4 flex items-center">
-              <Star className="text-primary mr-3" />
-              <span className="text-primary text-sm font-semibold tracking-wide uppercase">
-                Key Feature
-              </span>
-            </div>
-            <h2 className="mb-6 text-3xl font-bold text-gray-900 lg:text-4xl">
-              AI-Powered Practice
-            </h2>
-            <p className="text-lg text-gray-600">
-              The chatbot offers personalized conversations, covering all four
-              language skills: listening, reading, writing, and speaking. Each
-              session is followed by a detailed performance review to guide
-              specific improvement.
-            </p>
-          </div>
-          <div className="order-1 md:order-2">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
+          <div className="order-1 sm:order-2">
             <div className="relative">
               <Image
                 src={Images.homepage.aiPoweredPractice}
@@ -130,6 +109,20 @@ export default function FeaturesSection() {
                 objectFit="contain"
               />
             </div>
+          </div>
+          <div className="order-1 sm:order-2">
+            <div className="mb-4 flex items-center">
+              <Star className="text-primary mr-3" />
+              <span className="text-primary text-sm font-semibold tracking-wide uppercase">
+                {t('HOMEPAGE.FEATURES.label')}
+              </span>
+            </div>
+            <h2 className="mb-6 text-3xl font-bold text-gray-900 lg:text-4xl">
+              {t('HOMEPAGE.FEATURES.aiPractice.title')}
+            </h2>
+            <p className="text-lg text-gray-600">
+              {t('HOMEPAGE.FEATURES.aiPractice.description')}
+            </p>
           </div>
         </div>
       </div>
