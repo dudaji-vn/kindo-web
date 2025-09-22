@@ -10,7 +10,7 @@ export default function FeaturesSection() {
     <section className="">
       {/* Gamified Learning */}
       <div className="w-full bg-neutral-100 px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
           <div className="order-2 md:order-1">
             <div className="mb-4 flex items-center">
               <Star className="text-primary mr-3" />
@@ -37,19 +37,19 @@ export default function FeaturesSection() {
         </div>
       </div>
       {/* Extensive Lesson Library */}
-      <div className="w-full px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
+      <div className="w-full px-5 pt-10 sm:px-10 md:px-[5vw] md:pt-14 lg:pt-24">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-            <div className="relative aspect-[5/4] w-full overflow-hidden">
+          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-24">
+            <div className="relative mt-auto aspect-[5/4] w-full overflow-hidden">
               <Image
                 src={Images.homepage.extensiveLessonLibrary}
                 alt="Extensive Lesson Library"
                 objectFit="cover"
-                className="top-0 w-full"
+                className="bottom-0 w-full"
                 quality={100}
               />
             </div>
-            <div>
+            <div className="pb-10 md:pb-14 lg:pb-24">
               <div className="mb-4 flex items-center">
                 <Star className="text-primary mr-3" />
                 <span className="text-primary text-sm font-semibold tracking-wide uppercase">
@@ -68,9 +68,9 @@ export default function FeaturesSection() {
       </div>
       {/* Incentive Badges */}
       <>
-        <div className="w-full bg-neutral-100 px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
-            <div className="order-2 md:order-1">
+        <div className="w-full bg-neutral-100 px-5 pt-10 sm:px-10 md:px-[5vw] md:pt-14 lg:pt-24">
+          <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
+            <div className="order-2 pb-10 md:order-1 md:pb-14 lg:pb-24">
               <div className="mb-4 flex items-center">
                 <Star className="text-primary mr-3" />
                 <span className="text-primary text-sm font-semibold tracking-wide uppercase">
@@ -100,8 +100,8 @@ export default function FeaturesSection() {
       </>
       {/* AI-Powered Practice */}
       <div className="w-full px-5 py-10 sm:px-10 md:px-[5vw] md:py-14 lg:py-24">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12">
-          <div className="order-2 sm:order-1">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
+          <div className="order-1 sm:order-2">
             <div className="relative">
               <Image
                 src={Images.homepage.aiPoweredPractice}
@@ -109,7 +109,7 @@ export default function FeaturesSection() {
                 objectFit="contain"
               />
             </div>
-          </div>{' '}
+          </div>
           <div className="order-1 sm:order-2">
             <div className="mb-4 flex items-center">
               <Star className="text-primary mr-3" />

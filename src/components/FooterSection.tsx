@@ -44,7 +44,13 @@ export default function FooterSection() {
               }
               className="inline-flex flex-1 items-center justify-center gap-3 rounded-lg bg-black px-4 py-1 text-white transition-colors hover:bg-gray-800 hover:shadow-md"
             >
-              <div className="text-2xl"></div>
+              <Image
+                src={SVGs.apple_light}
+                alt=""
+                objectFit="contain"
+                height={24}
+                width={20}
+              />
               <div className="min-w-fit truncate text-left text-sm">
                 {t('HOMEPAGE.COMMON.downloadOnThe')}{' '}
                 <p className="text-2xl">{t('HOMEPAGE.COMMON.appStore')}</p>

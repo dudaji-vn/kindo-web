@@ -18,7 +18,7 @@ export default function HeroSection() {
         <div className="relative flex h-full w-full max-w-7xl">
           <div className="z-10 flex w-full px-5 py-5 md:min-w-1/2 md:justify-center md:px-10 md:py-10">
             <div className="flex w-full flex-col justify-end gap-3 md:justify-center">
-              <h1 className="mb-6 text-3xl font-semibold text-neutral-800 md:text-5xl">
+              <h1 className="mb-6 text-3xl font-semibold text-neutral-800 max-md:text-center md:text-5xl">
                 {t('HOMEPAGE.HERO.titlePrefix')}{' '}
                 <span className="text-primary block text-7xl max-[380px]:text-5xl">
                   {t('HOMEPAGE.HERO.titleEmphasis')}
@@ -31,12 +31,18 @@ export default function HeroSection() {
                   <Link
                     href={
                       KINDO_APP_STORE_URL ||
-                      'https://apps.apple.com/vn/app/kindo-learning-korean/'
+                      'https://apps.apple.com/vn/app/kindo-learning-korean/id6746713860'
                     }
                     target="_blank"
                     className="inline-flex items-center justify-center gap-3 rounded-lg bg-black px-4 py-1 text-white transition-colors hover:bg-gray-800 hover:shadow-md"
                   >
-                    <div className="text-2xl"></div>
+                    <Image
+                      src={SVGs.apple_light}
+                      alt=""
+                      objectFit="contain"
+                      height={24}
+                      width={20}
+                    />
                     <div className="min-w-fit truncate text-sm">
                       {t('HOMEPAGE.COMMON.downloadOnThe')}{' '}
                       <p className="text-2xl">
