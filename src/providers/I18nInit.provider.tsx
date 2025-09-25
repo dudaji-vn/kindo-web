@@ -8,7 +8,10 @@ export const I18nInitProvider = () => {
   const setLanguage = useAppStore((state) => state.setLanguage);
   const language = useAppStore((state) => state.language);
   const { i18n } = useTranslation('common');
+  const hydrated = useAppStore((state) => state._hydrated);
+
   useEffect(() => {
+    if (!hydrated) return;
     let lang = '';
     if (!language) {
       const browserLanguage = navigator.language;
@@ -23,6 +26,7 @@ export const I18nInitProvider = () => {
         (item) => item.value === deceiveLanguage,
       );
       lang = isSupport ? deceiveLanguage : 'en';
+      setLanguage(lang);
     } else {
       const isSupport = I18N_SUPPORTED_LANGUAGES.find(
         (item) => item.value === language,
@@ -30,6 +34,7 @@ export const I18nInitProvider = () => {
       lang = isSupport ? language : 'en';
     }
     i18n.changeLanguage(lang);
-  }, [i18n, language, setLanguage]);
+  }, [i18n, language, hydrated, setLanguage]);
+
   return <></>;
 };
