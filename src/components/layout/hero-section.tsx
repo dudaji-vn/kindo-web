@@ -1,10 +1,14 @@
 'use client';
-import Image from 'next/image';
 import Images from '@/assets/images';
 import SVGs from '@/assets/SVG';
-import Link from 'next/link';
+import {
+  KINDO_ANDROID_APK_URL,
+  KINDO_APP_STORE_URL,
+  KINDO_GOOGLE_STORE_URL,
+} from '@/constant';
 import { Star } from 'lucide-react';
-import { KINDO_APP_STORE_URL, KINDO_GOOGLE_STORE_URL } from '@/constant';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 
 export default function HeroSection() {
@@ -37,7 +41,7 @@ export default function HeroSection() {
                     <Image
                       src={SVGs.apple_light}
                       alt=""
-                      objectFit="contain"
+                      className="object-contain"
                       height={24}
                       width={20}
                     />
@@ -48,28 +52,53 @@ export default function HeroSection() {
                       </p>
                     </div>
                   </Link>
-                  <Link
-                    href={
-                      KINDO_GOOGLE_STORE_URL ||
-                      'https://play.google.com/store/apps/details?id=com.dudaji.kindo'
-                    }
-                    target="_blank"
-                    className="bg-background text-foreground inline-flex flex-1 items-center justify-center gap-3 rounded-lg border px-5 py-2 transition-colors hover:shadow-md"
-                  >
-                    <Image
-                      src={SVGs.play}
-                      alt="Google Play"
-                      width={20}
-                      height={20}
-                      className="mr-2"
-                    />
-                    <div className="min-w-fit truncate text-sm">
-                      {t('HOMEPAGE.COMMON.getItOn')}{' '}
-                      <p className="text-2xl">
-                        {t('HOMEPAGE.COMMON.googlePlay')}
-                      </p>
-                    </div>
-                  </Link>
+                  {KINDO_ANDROID_APK_URL ? (
+                    <Link
+                      href={KINDO_ANDROID_APK_URL}
+                      prefetch={false}
+                      download
+                      className="text-foreground inline-flex flex-1 items-center justify-center gap-3 rounded-lg border bg-white px-4 py-1 transition-colors hover:shadow-md"
+                    >
+                      <div className="mr-2 flex flex-col items-center justify-center">
+                        <div className="flex h-5 w-8 flex-row items-end justify-center">
+                          <Image
+                            src={SVGs.android}
+                            alt="APK"
+                            height={30}
+                            className="absolute object-cover"
+                          />
+                        </div>
+                        <p className="font-semibold">APK</p>
+                      </div>
+                      <div className="min-w-fit truncate text-left text-sm">
+                        {t('HOMEPAGE.COMMON.download')}
+                        <p className="text-2xl">Android APK</p>
+                      </div>
+                    </Link>
+                  ) : (
+                    <Link
+                      href={
+                        KINDO_GOOGLE_STORE_URL ||
+                        'https://play.google.com/store/apps/details?id=com.dudaji.kindo'
+                      }
+                      target="_blank"
+                      className="bg-background text-foreground inline-flex flex-1 items-center justify-center gap-3 rounded-lg border px-5 py-2 transition-colors hover:shadow-md"
+                    >
+                      <Image
+                        src={SVGs.play}
+                        alt="Google Play"
+                        width={20}
+                        height={20}
+                        className="mr-2"
+                      />
+                      <div className="min-w-fit truncate text-left text-sm">
+                        {t('HOMEPAGE.COMMON.getItOn')}{' '}
+                        <p className="text-2xl">
+                          {t('HOMEPAGE.COMMON.googlePlay')}
+                        </p>
+                      </div>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
@@ -79,15 +108,13 @@ export default function HeroSection() {
               src={Images.homepage.mobileLanding}
               alt="Kindo Mobile App"
               fill
-              objectFit="cover"
-              className="md:hidden"
+              className="object-cover md:hidden"
             />
             <Image
               src={Images.homepage.pcLanding}
               alt="Kindo Mobile App"
               fill
-              className="max-md:hidden"
-              objectFit="cover"
+              className="object-cover max-md:hidden"
             />
           </div>
         </div>

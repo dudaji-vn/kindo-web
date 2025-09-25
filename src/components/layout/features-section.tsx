@@ -30,7 +30,7 @@ export default function FeaturesSection() {
               <Image
                 src={Images.homepage.gamifiedLearning}
                 alt="Gamified Learning Feature"
-                objectFit="contain"
+                className="object-contain"
               />
             </div>
           </div>
@@ -44,8 +44,7 @@ export default function FeaturesSection() {
               <Image
                 src={Images.homepage.extensiveLessonLibrary}
                 alt="Extensive Lesson Library"
-                objectFit="cover"
-                className="bottom-0 w-full"
+                className="bottom-0 w-full object-cover"
                 quality={100}
               />
             </div>
@@ -89,8 +88,7 @@ export default function FeaturesSection() {
                 <Image
                   src={Images.homepage.incentiveBadges}
                   alt="Incentive Badges System"
-                  objectFit="cover"
-                  className="top-0 w-full"
+                  className="top-0 w-full object-cover"
                   quality={100}
                 />
               </div>
@@ -106,7 +104,7 @@ export default function FeaturesSection() {
               <Image
                 src={Images.homepage.aiPoweredPractice}
                 alt="AI-Powered Practice"
-                objectFit="contain"
+                className="object-contain"
               />
             </div>
           </div>
