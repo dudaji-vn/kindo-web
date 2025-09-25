@@ -28,6 +28,7 @@ import {
   useState,
 } from 'react';
 import HTMLFlipBook from 'react-pageflip';
+import { toast } from 'sonner';
 
 function PDFViewer() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,7 +39,7 @@ function PDFViewer() {
   const { data } = useGetLecture(lectureId ?? '');
   const { data: lesson } = useGetLesson(data?.lesson_id);
   const [pdfUrl, setPdfUrl] = useState<string | undefined>();
-  const [pages, setPages] = useState<string[]>([]);
+  const [pages_, setPages] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -57,6 +58,7 @@ function PDFViewer() {
       setPdfUrl(data?.file_url);
     }
   }, [data]);
+  const pages = useMemo(() => pages_, [pages_]);
 
   // Configure PDF.js worker
   useMemo(() => {
@@ -220,7 +222,10 @@ function PDFViewer() {
         // Use proxy API for external URLs to avoid CORS issues
         const isExternalUrl =
           pdfUrl?.startsWith('http://') || pdfUrl?.startsWith('https://');
-        if (!pdfUrl) throw new Error('No PDF URL specified');
+        if (!pdfUrl) {
+          console.log('No PDF URL specified');
+          return;
+        }
         const fetchUrl = isExternalUrl
           ? `/api/pdf-proxy?url=${encodeURIComponent(pdfUrl)}`
           : pdfUrl;
@@ -267,10 +272,25 @@ function PDFViewer() {
           setPages((prev) => [...prev, dataUrl]);
         }
       } catch (e) {
-        console.log(e);
-        setError(
-          'Failed to load PDF. Please check the URL or try a different PDF file.',
-        );
+        console.error('PDF loading error:', e);
+        // More specific error messages
+        let errorMessage =
+          'Failed to load PDF. Try a different browser or open it directly in the browser.';
+
+        if (e instanceof Error) {
+          if (e.message.includes('CORS')) {
+            errorMessage =
+              'PDF cannot be loaded due to security restrictions. Please try the direct link below.';
+          } else if (e.message.includes('Network')) {
+            errorMessage =
+              'Network error loading PDF. Please check your connection and try again.';
+          } else if (e.message.includes('Invalid PDF')) {
+            errorMessage = 'The PDF file appears to be corrupted or invalid.';
+          }
+          // errorMessage = e.message;
+        }
+        toast.error(JSON.stringify(e));
+        setError(errorMessage);
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -347,11 +367,45 @@ function PDFViewer() {
         )}
         {error && !loading && (
           <div
-            className={`flex h-full items-center justify-center text-sm ${
+            className={`mx-5 flex h-full flex-col items-center justify-center gap-4 text-sm ${
               isFullscreen ? 'text-red-400' : 'text-red-500'
             }`}
           >
-            {error}
+            <div className="text-center">
+              <p className="mb-2">{error}</p>
+              {pdfUrl && (
+                <div className="space-y-3">
+                  <p
+                    className={`text-xs ${isFullscreen ? 'text-neutral-300' : 'text-neutral-600'}`}
+                  >
+                    You can try opening the PDF directly:
+                  </p>
+                  <div className="flex flex-col justify-center gap-2 sm:flex-row">
+                    <a
+                      href={pdfUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                        isFullscreen
+                          ? 'bg-neutral-800 text-white hover:bg-neutral-700'
+                          : 'bg-neutral-100 text-neutral-800 hover:bg-neutral-200'
+                      }`}
+                    >
+                      <Download className="size-4" />
+                      Open PDF in Browser
+                    </a>
+                    <Button
+                      variant={isFullscreen ? 'secondary' : 'outline'}
+                      onClick={goHome}
+                      className="text-sm"
+                    >
+                      <ArrowLeft className="mr-2 size-4" />
+                      Back to Lectures
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         )}
         {!loading && !error && pages.length > 0 && (

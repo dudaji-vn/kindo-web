@@ -12,9 +12,7 @@ export default function HeroSection() {
   return (
     <>
       <section className="relative mx-5 mt-[84px] flex flex-1 justify-center max-md:h-[calc(100dvh-104px)] sm:mx-10 md:mx-[5vw] md:mt-24 md:min-h-1/2">
-        {/* min-h-[calc(100dvh-64px)] */}
         {/* Download card */}
-
         <div className="relative flex h-full w-full max-w-7xl">
           <div className="z-10 flex w-full px-5 py-5 md:min-w-1/2 md:justify-center md:px-10 md:py-10">
             <div className="flex w-full flex-col justify-end gap-3 md:justify-center">
@@ -27,14 +25,14 @@ export default function HeroSection() {
               {/* Download buttons */}
               <div className="flex flex-col gap-3 md:justify-center">
                 <span>{t('HOMEPAGE.HERO.downloadNowAt')}</span>
-                <div className="flex flex-col gap-3 md:flex-row">
+                <div className="flex flex-col gap-3 md:w-fit md:flex-row">
                   <Link
                     href={
                       KINDO_APP_STORE_URL ||
                       'https://apps.apple.com/vn/app/kindo-learning-korean/id6746713860'
                     }
                     target="_blank"
-                    className="inline-flex items-center justify-center gap-3 rounded-lg bg-black px-4 py-1 text-white transition-colors hover:bg-gray-800 hover:shadow-md"
+                    className="inline-flex flex-1 items-center justify-center gap-3 rounded-lg bg-black px-5 py-2 text-white transition-colors hover:bg-gray-800 hover:shadow-md"
                   >
                     <Image
                       src={SVGs.apple_light}
@@ -56,7 +54,7 @@ export default function HeroSection() {
                       'https://play.google.com/store/apps/details?id=com.dudaji.kindo'
                     }
                     target="_blank"
-                    className="bg-background text-foreground inline-flex items-center justify-center gap-3 rounded-lg border px-4 py-1 transition-colors hover:shadow-md"
+                    className="bg-background text-foreground inline-flex flex-1 items-center justify-center gap-3 rounded-lg border px-5 py-2 transition-colors hover:shadow-md"
                   >
                     <Image
                       src={SVGs.play}

@@ -1,11 +1,6 @@
 import { useGetCourses } from '@/features/courses/hooks/use-get-courses';
 import { useMemo } from 'react';
 
-export type LanguagePair = {
-  sourceLanguage: string;
-  targetLanguage: string;
-};
-
 export const useAvailableLanguagePairs = () => {
   const { data: courses, isLoading, error } = useGetCourses();
 
