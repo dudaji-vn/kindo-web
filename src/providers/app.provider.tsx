@@ -1,6 +1,6 @@
 'use client';
 
-import Navbar from '@/components/Navbar/Navbar';
+import Navbar from '@/components/layout/nav-bar';
 import i18next from '@/lib/i18n/config';
 import React, { useEffect } from 'react';
 import { I18nextProvider } from 'react-i18next';

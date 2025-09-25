@@ -1,8 +1,8 @@
 'use client';
 
-import { type LanguagePair } from '@/components/language-selector';
 import { useAvailableLanguagePairs } from '@/features/courses/hooks/use-available-language-pairs';
 import LectureList from '@/features/lectures/components/lecture-list';
+import { LanguagePair } from '@/features/lectures/hooks/use-lecture';
 import { useAppStore } from '@/stores/app.store';
 import { useEffect, useState } from 'react';
 

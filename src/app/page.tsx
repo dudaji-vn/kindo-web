@@ -1,6 +1,6 @@
-import FeaturesSection from '@/components/FeaturesSection';
-import FooterSection from '@/components/FooterSection';
-import HeroSection from '@/components/HeroSection';
+import FeaturesSection from '@/components/layout/features-section';
+import FooterSection from '@/components/layout/footer-section';
+import HeroSection from '@/components/layout/hero-section';
 
 export default function Home() {
   return (

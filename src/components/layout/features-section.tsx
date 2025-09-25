@@ -39,7 +39,7 @@ export default function FeaturesSection() {
       {/* Extensive Lesson Library */}
       <div className="w-full px-5 pt-10 sm:px-10 md:px-[5vw] md:pt-14 lg:pt-24">
         <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2 lg:gap-24">
+          <div className="grid grid-cols-1 items-center gap-5 md:grid-cols-2 md:gap-12 lg:gap-24">
             <div className="relative mt-auto aspect-[5/4] w-full overflow-hidden">
               <Image
                 src={Images.homepage.extensiveLessonLibrary}

@@ -1,5 +1,5 @@
 'use client';
-import { LanguageSelector } from '@/components/LanguageSelector';
+import { LanguageSelector } from '@/components/language-selector';
 import { DUDAJI_VN_CONTACT_URL, KINDO_DOCS_URL } from '@/constant';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
