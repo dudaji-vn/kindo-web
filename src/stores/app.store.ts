@@ -8,6 +8,7 @@ export type Theme = Exclude<ThemeSetting, 'system'>;
 export type AppState = {
   language: string;
   theme?: Theme;
+  _hydrated: boolean;
 };
 
 export type AppActions = {
@@ -20,10 +21,18 @@ export const useAppStore = create<AppState & AppActions>()(
     (set) => ({
       language: undefined,
       theme: undefined,
+      _hydrated: false,
       setLanguage: (language) => set(() => ({ language })),
       setTheme: (theme) => set(() => ({ theme })),
       ...restoredState('app-store'),
     }),
-    { name: 'app-store' },
+    {
+      name: 'app-store',
+      onRehydrateStorage: () => (state) => {
+        if (state) {
+          state._hydrated = true;
+        }
+      },
+    },
   ),
 );

@@ -5,6 +5,7 @@ import {
   DUDAJI_VN_URL,
   KINDO_APP_STORE_URL,
   KINDO_GOOGLE_STORE_URL,
+  KINDO_ANDROID_APK_URL,
 } from '@/constant';
 import { ExternalLink, Star } from 'lucide-react';
 import Image from 'next/image';
@@ -27,7 +28,7 @@ export default function FooterSection() {
       >
         {/* Optional stronger gradient overlay (uncomment if needed) */}
         {/* <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#FFF8F1]/90 to-[#FEEEDA]/60" /> */}
-        <div className="mx-auto flex max-w-2xl flex-col justify-center px-4 px-5 text-center sm:px-10 md:px-10">
+        <div className="mx-auto flex max-w-2xl flex-col justify-center px-5 text-center sm:px-10 md:px-10">
           <h2 className="mb-6 text-3xl font-bold text-neutral-800 lg:text-4xl">
             {t('HOMEPAGE.CTA.title')}
           </h2>
@@ -47,7 +48,7 @@ export default function FooterSection() {
               <Image
                 src={SVGs.apple_light}
                 alt=""
-                objectFit="contain"
+                className="object-contain"
                 height={24}
                 width={20}
               />
@@ -56,25 +57,50 @@ export default function FooterSection() {
                 <p className="text-2xl">{t('HOMEPAGE.COMMON.appStore')}</p>
               </div>
             </Link>
-            <Link
-              href={
-                KINDO_GOOGLE_STORE_URL ||
-                'https://play.google.com/store/apps/details?id=com.dudaji.kindo'
-              }
-              className="text-foreground inline-flex flex-1 items-center justify-center gap-3 rounded-lg border bg-white px-4 py-1 transition-colors hover:shadow-md"
-            >
-              <Image
-                src={SVGs.play}
-                alt="Google Play"
-                width={20}
-                height={20}
-                className="mr-2"
-              />
-              <div className="min-w-fit truncate text-left text-sm">
-                {t('HOMEPAGE.COMMON.getItOn')}{' '}
-                <p className="text-2xl">{t('HOMEPAGE.COMMON.googlePlay')}</p>
-              </div>
-            </Link>
+            {KINDO_ANDROID_APK_URL ? (
+              <Link
+                href={KINDO_ANDROID_APK_URL}
+                prefetch={false}
+                download
+                className="text-foreground inline-flex flex-1 items-center justify-center gap-3 rounded-lg border bg-white px-4 py-1 transition-colors hover:shadow-md"
+              >
+                <div className="mr-2 flex flex-col items-center justify-center">
+                  <div className="flex h-5 w-8 flex-row items-end justify-center">
+                    <Image
+                      src={SVGs.android}
+                      alt="APK"
+                      height={30}
+                      className="absolute object-cover"
+                    />
+                  </div>
+                  <p className="font-semibold">APK</p>
+                </div>
+                <div className="min-w-fit truncate text-left text-sm">
+                  {t('HOMEPAGE.COMMON.download')}
+                  <p className="text-2xl">Android APK</p>
+                </div>
+              </Link>
+            ) : (
+              <Link
+                href={
+                  KINDO_GOOGLE_STORE_URL ||
+                  'https://play.google.com/store/apps/details?id=com.dudaji.kindo'
+                }
+                className="text-foreground inline-flex flex-1 items-center justify-center gap-3 rounded-lg border bg-white px-4 py-1 transition-colors hover:shadow-md"
+              >
+                <Image
+                  src={SVGs.play}
+                  alt="Google Play"
+                  width={20}
+                  height={20}
+                  className="mr-2"
+                />
+                <div className="min-w-fit truncate text-left text-sm">
+                  {t('HOMEPAGE.COMMON.getItOn')}{' '}
+                  <p className="text-2xl">{t('HOMEPAGE.COMMON.googlePlay')}</p>
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </section>

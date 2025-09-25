@@ -6,3 +6,5 @@ export const KINDO_GOOGLE_STORE_URL =
 export const KINDO_DOCS_URL = process.env.NEXT_PUBLIC_KINDO_DOCS_URL!;
 export const DUDAJI_VN_CONTACT_URL =
   process.env.NEXT_PUBLIC_DUDAJI_VN_CONTACT_URL!;
+export const KINDO_ANDROID_APK_URL =
+  process.env.NEXT_PUBLIC_KINDO_ANDROID_APK_URL;
