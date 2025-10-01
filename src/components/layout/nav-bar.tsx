@@ -4,6 +4,7 @@ import { DUDAJI_VN_CONTACT_URL, KINDO_DOCS_URL } from '@/constant';
 import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import {
   Drawer,
   DrawerClose,
@@ -14,17 +15,18 @@ import {
 } from '../ui/drawer';
 
 import { useTranslation } from 'react-i18next';
+import { cn } from '@/lib/utils';
 
 interface NavigationItem {
   key: string; // translation key suffix
   href: string;
-  current: boolean;
+  target?: string;
 }
 
 const navigation: NavigationItem[] = [
-  { key: 'ONLINE_LECTURES', href: '/lectures', current: false },
-  { key: 'USER_GUIDE', href: KINDO_DOCS_URL || '#', current: false },
-  { key: 'CONTACT_US', href: DUDAJI_VN_CONTACT_URL || '#', current: false },
+  { key: 'ONLINE_LECTURES', href: '/lectures' },
+  { key: 'USER_GUIDE', href: KINDO_DOCS_URL || '#', target: '_blank' },
+  { key: 'CONTACT_US', href: DUDAJI_VN_CONTACT_URL || '#', target: '_blank' },
 ];
 
 function classNames(...classes: string[]) {
@@ -34,6 +36,18 @@ function classNames(...classes: string[]) {
 const Navbar = () => {
   // language handled inside LanguageSelector via store
   const { t } = useTranslation('common');
+  const pathname = usePathname();
+
+  const isInternal = (href: string) => href.startsWith('/');
+  const isActive = (href: string) => {
+    if (!isInternal(href)) return false;
+    if (href === '/') return pathname === '/';
+    console.log({
+      href,
+      pathname,
+    });
+    return pathname === href || pathname.startsWith(href + '/');
+  };
   return (
     <nav className="fixed top-0 right-0 left-0 z-50 border-b border-white/20 bg-white/80 px-6 shadow-sm backdrop-blur-md sm:px-10 md:px-[5vw]">
       <div className="mx-auto max-w-7xl py-3">
@@ -63,21 +77,25 @@ const Navbar = () => {
             {/* LINKS */}
             <div className="ml-20 hidden items-center gap-6 lg:flex">
               <div className="flex space-x-4">
-                {navigation.map((item) => (
-                  <Link
-                    key={item.key}
-                    href={item.href}
-                    className={classNames(
-                      item.current
-                        ? 'text-primary-500 hover:text-primary-800'
-                        : 'hover:text-primary-500 text-neutral-800',
-                      'px-3 py-4 font-semibold transition-colors duration-200',
-                    )}
-                    aria-current={item.current ? 'page' : undefined}
-                  >
-                    {t(`NAVBAR.${item.key}`)}
-                  </Link>
-                ))}
+                {navigation.map((item) => {
+                  const active = isActive(item.href);
+                  return (
+                    <Link
+                      target={item.target}
+                      key={item.key}
+                      href={item.href}
+                      className={classNames(
+                        active
+                          ? 'text-primary'
+                          : 'hover:text-primary text-neutral-800',
+                        'px-3 py-4 font-semibold transition-colors duration-200',
+                      )}
+                      aria-current={active ? 'page' : undefined}
+                    >
+                      {t(`NAVBAR.${item.key}`)}
+                    </Link>
+                  );
+                })}
               </div>
               <LanguageSelector />
             </div>
@@ -124,22 +142,26 @@ const Navbar = () => {
               </DrawerHeader>
               <div className="flex h-full flex-col gap-10 pt-0 pb-5">
                 <div className="grid gap-3 px-5">
-                  {navigation.map((item, index) => (
-                    <DrawerClose asChild key={index}>
-                      <Link
-                        href={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'text-black hover:opacity-100'
-                            : 'hover:text-black hover:opacity-100',
-                          'block px-2 py-1 text-lg font-normal opacity-75',
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {t(`NAVBAR.${item.key}`)}
-                      </Link>
-                    </DrawerClose>
-                  ))}
+                  {navigation.map((item, index) => {
+                    const active = isActive(item.href);
+                    return (
+                      <DrawerClose asChild key={index}>
+                        <Link
+                          target={item.target}
+                          href={item.href}
+                          className={cn(
+                            active
+                              ? 'text-primary opacity-100'
+                              : 'opacity-75 hover:text-black hover:opacity-100',
+                            'hover:text-primary block px-2 py-1 text-lg font-normal',
+                          )}
+                          aria-current={active ? 'page' : undefined}
+                        >
+                          {t(`NAVBAR.${item.key}`)}
+                        </Link>
+                      </DrawerClose>
+                    );
+                  })}
                 </div>
                 <div className="flex w-full justify-center">
                   <LanguageSelector />
