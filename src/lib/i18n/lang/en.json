@@ -61,5 +61,19 @@
     "USER_GUIDE": "User Guide",
     "CONTACT_US": "Contact Us",
     "DRAWER_TITLE": "Menu"
+  },
+  "PDF_VIEWER": {
+    "READING_LABEL": "Reading",
+    "BACK": "Back",
+    "LOADING": "Loading PDF...",
+    "DOWNLOAD": "Download as PDF",
+    "DOWNLOADING": "Downloading...",
+    "FULLSCREEN": "Fullscreen (f)",
+    "EXIT_FULLSCREEN": "Exit fullscreen (f)",
+    "SHORTCUTS_TITLE": "Keyboard Shortcuts",
+    "SHORTCUT_NAVIGATE": "Navigate:",
+    "SHORTCUT_EXIT_FULLSCREEN": "Exit fullscreen:",
+    "SHORTCUT_HOME": "Home:",
+    "HOME": "Home"
   }
 }

@@ -7,6 +7,7 @@ export const LESSON_KEY = 'lesson';
 export const useGetLesson = (id?: string | null) => {
   return useQuery<LessonRecord>({
     queryKey: [LESSON_KEY, id],
+    enabled: !!id,
     queryFn: async () => {
       const supabase = createClient();
       const query = supabase.from('lessons').select('*').eq('id', id).single();

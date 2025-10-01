@@ -61,5 +61,19 @@
     "USER_GUIDE": "Hướng dẫn sử dụng",
     "CONTACT_US": "Liên hệ",
     "DRAWER_TITLE": "Menu"
+  },
+  "PDF_VIEWER": {
+    "READING_LABEL": "Đọc",
+    "BACK": "Quay lại",
+    "LOADING": "Đang tải PDF...",
+    "DOWNLOAD": "Tải PDF",
+    "DOWNLOADING": "Đang tải...",
+    "FULLSCREEN": "Toàn màn hình (f)",
+    "EXIT_FULLSCREEN": "Thoát toàn màn hình (f)",
+    "SHORTCUTS_TITLE": "Phím tắt",
+    "SHORTCUT_NAVIGATE": "Di chuyển:",
+    "SHORTCUT_EXIT_FULLSCREEN": "Thoát toàn màn hình:",
+    "SHORTCUT_HOME": "Trang chủ:",
+    "HOME": "Trang chủ"
   }
 }

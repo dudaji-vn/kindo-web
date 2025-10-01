@@ -54,5 +54,19 @@
       "copyright": "(ko) Dudaji, Inc © All Rights Reserved.",
       "contactEmail": "contact@dudaji.vn"
     }
+  },
+  "PDF_VIEWER": {
+    "READING_LABEL": "(ko) Reading",
+    "BACK": "(ko) Back",
+    "LOADING": "(ko) Loading PDF...",
+    "DOWNLOAD": "(ko) Download as PDF",
+    "DOWNLOADING": "(ko) Downloading...",
+    "FULLSCREEN": "(ko) Fullscreen (f)",
+    "EXIT_FULLSCREEN": "(ko) Exit fullscreen (f)",
+    "SHORTCUTS_TITLE": "(ko) Keyboard Shortcuts",
+    "SHORTCUT_NAVIGATE": "(ko) Navigate:",
+    "SHORTCUT_EXIT_FULLSCREEN": "(ko) Exit fullscreen:",
+    "SHORTCUT_HOME": "(ko) Home:",
+    "HOME": "(ko) Home"
   }
 }
