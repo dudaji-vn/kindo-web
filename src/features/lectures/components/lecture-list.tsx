@@ -1,5 +1,6 @@
 import LectureCard from '@/features/lectures/components/lecture-card';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLecture, type LanguagePair } from '../hooks/use-lecture';
 
 type LectureListProps = {
@@ -8,13 +9,14 @@ type LectureListProps = {
 
 const LectureList: React.FC<LectureListProps> = ({ languagePair }) => {
   const { data, isLoading } = useLecture(languagePair);
+  const { t } = useTranslation(['common']);
 
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-gray-50">
         <div className="flex flex-col items-center gap-3">
           <div className="h-8 w-8 animate-spin rounded-full border-4 border-neutral-200 border-t-neutral-600"></div>
-          <div className="text-neutral-500">Loading lectures...</div>
+          <div className="text-neutral-500">{t('LECTURE_LIST.LOADING')}</div>
         </div>
       </div>
     );
@@ -27,12 +29,12 @@ const LectureList: React.FC<LectureListProps> = ({ languagePair }) => {
             <div className="text-6xl">📚</div>
             <div className="text-lg text-gray-500">
               {languagePair
-                ? `No lectures found for the selected language pair`
-                : 'No lectures available'}
+                ? t('LECTURE_LIST.NO_LECTURES_FOR_LANGUAGE')
+                : t('LECTURE_LIST.NO_LECTURES')}
             </div>
             {languagePair && (
               <div className="text-sm text-gray-400">
-                Try selecting a different language pair or view all languages
+                {t('LECTURE_LIST.TRY_DIFFERENT_LANGUAGE')}
               </div>
             )}
           </div>
@@ -44,7 +46,7 @@ const LectureList: React.FC<LectureListProps> = ({ languagePair }) => {
           {index !== 0 && <div className="border-b border-neutral-100" />}
           <div key={course.id} className="grid gap-5">
             <span className="text-lg text-gray-600">
-              {course.title || 'Untitled Course'}
+              {course.title || t('LECTURE_LIST.UNTITLED_COURSE')}
             </span>
 
             <div

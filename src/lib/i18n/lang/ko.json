@@ -55,6 +55,13 @@
       "contactEmail": "contact@dudaji.vn"
     }
   },
+  "LECTURE_LIST": {
+    "LOADING": "(ko) Loading lectures...",
+    "NO_LECTURES": "(ko) No lectures available",
+    "NO_LECTURES_FOR_LANGUAGE": "(ko) No lectures found for the selected language pair",
+    "TRY_DIFFERENT_LANGUAGE": "(ko) Try selecting a different language pair or view all languages",
+    "UNTITLED_COURSE": "(ko) Untitled Course"
+  },
   "PDF_VIEWER": {
     "READING_LABEL": "(ko) Reading",
     "BACK": "(ko) Back",
@@ -65,8 +72,17 @@
     "EXIT_FULLSCREEN": "(ko) Exit fullscreen (f)",
     "SHORTCUTS_TITLE": "(ko) Keyboard Shortcuts",
     "SHORTCUT_NAVIGATE": "(ko) Navigate:",
+    "SHORTCUT_SWIPE": "(ko) Swipe:",
     "SHORTCUT_EXIT_FULLSCREEN": "(ko) Exit fullscreen:",
     "SHORTCUT_HOME": "(ko) Home:",
-    "HOME": "(ko) Home"
+    "HOME": "(ko) Home",
+    "UNTITLED": "(ko) Untitled"
+  },
+  "NOT_FOUND": {
+    "TITLE": "(ko) Page Not Found",
+    "DESCRIPTION": "(ko) The page you're looking for doesn't exist or has been moved.",
+    "GO_HOME": "(ko) Go to Home",
+    "GO_BACK": "(ko) Go Back",
+    "HELP_TEXT": "(ko) If you think this is an error, please contact our support team."
   }
 }

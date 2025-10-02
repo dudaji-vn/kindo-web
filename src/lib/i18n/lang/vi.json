@@ -62,6 +62,13 @@
     "CONTACT_US": "Liên hệ",
     "DRAWER_TITLE": "Menu"
   },
+  "LECTURE_LIST": {
+    "LOADING": "Đang tải bài giảng...",
+    "NO_LECTURES": "Không có bài giảng nào",
+    "NO_LECTURES_FOR_LANGUAGE": "Không tìm thấy bài giảng cho cặp ngôn ngữ đã chọn",
+    "TRY_DIFFERENT_LANGUAGE": "Thử chọn cặp ngôn ngữ khác hoặc xem tất cả ngôn ngữ",
+    "UNTITLED_COURSE": "Khóa học chưa có tên"
+  },
   "PDF_VIEWER": {
     "READING_LABEL": "Đọc",
     "BACK": "Quay lại",
@@ -72,8 +79,17 @@
     "EXIT_FULLSCREEN": "Thoát toàn màn hình (f)",
     "SHORTCUTS_TITLE": "Phím tắt",
     "SHORTCUT_NAVIGATE": "Di chuyển:",
+    "SHORTCUT_SWIPE": "Vuốt:",
     "SHORTCUT_EXIT_FULLSCREEN": "Thoát toàn màn hình:",
     "SHORTCUT_HOME": "Trang chủ:",
-    "HOME": "Trang chủ"
+    "HOME": "Trang chủ",
+    "UNTITLED": "Chưa có tên"
+  },
+  "NOT_FOUND": {
+    "TITLE": "Không tìm thấy trang",
+    "DESCRIPTION": "Trang bạn đang tìm kiếm không tồn tại hoặc đã bị di chuyển.",
+    "GO_HOME": "Về trang chủ",
+    "GO_BACK": "Quay lại",
+    "HELP_TEXT": "Nếu bạn nghĩ đây là lỗi, vui lòng liên hệ đội hỗ trợ của chúng tôi."
   }
 }
