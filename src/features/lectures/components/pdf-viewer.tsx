@@ -16,10 +16,12 @@ import {
 } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export function ReactPDFViewer() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
+  const { t } = useTranslation(['common']);
   const lectureId = params.id;
   const { data } = useGetLecture(lectureId ?? '');
   const { data: lesson } = useGetLesson(data?.lesson_id);
@@ -32,7 +34,14 @@ export function ReactPDFViewer() {
   const hideTimerRef = useRef<NodeJS.Timeout | null>(null);
   const [showControls, setShowControls] = useState(true);
   const [downloading, setDownloading] = useState(false);
+  const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(
+    null,
+  );
+  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(
+    null,
+  );
   const INACTIVITY_MS = 2000; // 3s inactivity hides controls
+  const MIN_SWIPE_DISTANCE = 50;
   useEffect(() => {
     if (data?.file_url) setPdfUrl(data.file_url);
   }, [data]);
@@ -80,16 +89,41 @@ export function ReactPDFViewer() {
   }, []);
   useEffect(() => {
     const handleFullscreenChange = () => {
-      const isNowFullscreen = !!document.fullscreenElement;
+      const isNowFullscreen = !!(
+        /* eslint-disable  @typescript-eslint/no-explicit-any */
+        (
+          document.fullscreenElement ||
+          (document as any).webkitFullscreenElement ||
+          (document as any).mozFullScreenElement ||
+          (document as any).msFullscreenElement
+        )
+      );
       setIsFullscreen(isNowFullscreen);
       if (!isNowFullscreen) {
         setShowShortcuts(false);
       }
     };
 
+    // Add event listeners for all vendor prefixes
     document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+
     return () => {
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener(
+        'webkitfullscreenchange',
+        handleFullscreenChange,
+      );
+      document.removeEventListener(
+        'mozfullscreenchange',
+        handleFullscreenChange,
+      );
+      document.removeEventListener(
+        'MSFullscreenChange',
+        handleFullscreenChange,
+      );
     };
   }, []);
   const canPrev = page > 1;
@@ -117,7 +151,8 @@ export function ReactPDFViewer() {
       a.download = baseName.endsWith('.pdf') ? baseName : baseName + '.pdf';
       document.body.appendChild(a);
       a.click();
-      a.remove();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(pdfUrl);
       setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
     } catch (e) {
       console.error('Download failed', e);
@@ -142,6 +177,39 @@ export function ReactPDFViewer() {
     setShowControls(true);
     scheduleHide();
   }, [scheduleHide]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    setTouchEnd(null); // Reset touch end
+    setTouchStart({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  }, []);
+
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    setTouchEnd({
+      x: e.targetTouches[0].clientX,
+      y: e.targetTouches[0].clientY,
+    });
+  }, []);
+
+  const handleTouchEnd = useCallback(() => {
+    if (!touchStart || !touchEnd) return;
+
+    const distanceX = touchStart.x - touchEnd.x;
+    const distanceY = touchStart.y - touchEnd.y;
+    const isLeftSwipe = distanceX > MIN_SWIPE_DISTANCE;
+    const isRightSwipe = distanceX < -MIN_SWIPE_DISTANCE;
+
+    // Only trigger if horizontal swipe is more significant than vertical
+    if (Math.abs(distanceX) > Math.abs(distanceY)) {
+      if (isLeftSwipe && canNext) {
+        goToNextPage();
+      } else if (isRightSwipe && canPrev) {
+        goToPreviousPage();
+      }
+    }
+  }, [touchStart, touchEnd, canNext, canPrev, goToNextPage, goToPreviousPage]);
 
   useEffect(() => {
     // initial schedule
@@ -203,7 +271,7 @@ export function ReactPDFViewer() {
               isFullscreen &&
                 'text-white hover:bg-neutral-800 hover:text-white',
             )}
-            title={'Exit fullscreen (f)'}
+            title={t('PDF_VIEWER.EXIT_FULLSCREEN')}
           >
             <Minimize className="size-5 text-white" />
           </Button>
@@ -215,17 +283,17 @@ export function ReactPDFViewer() {
             <div className="flex min-w-0 items-center gap-3">
               <Button variant="ghost" className="h-9 px-2" onClick={goHome}>
                 <ArrowLeft className="mr-1 size-4" />{' '}
-                <span className="hidden sm:inline">Back</span>
+                <span className="hidden sm:inline">{t('PDF_VIEWER.BACK')}</span>
               </Button>
               <div className="flex min-w-0 flex-col">
                 <span className="text-muted-foreground text-[10px] tracking-wide uppercase">
-                  Reading
+                  {t('PDF_VIEWER.READING_LABEL')}
                 </span>
                 <span className="max-w-[200px] truncate text-sm font-medium sm:max-w-[360px]">
                   {data?.title ||
                     (lesson &&
                       `Lesson ${lesson.order_index} - ${lesson.title}`) ||
-                    'Untitled'}
+                    t('PDF_VIEWER.UNTITLED')}
                 </span>
               </div>
             </div>
@@ -234,7 +302,11 @@ export function ReactPDFViewer() {
                 size="icon"
                 variant="outline"
                 onClick={toggleFullscreen}
-                title={isFullscreen ? 'Exit fullscreen (f)' : 'Fullscreen (f)'}
+                title={
+                  isFullscreen
+                    ? t('PDF_VIEWER.EXIT_FULLSCREEN')
+                    : t('PDF_VIEWER.FULLSCREEN')
+                }
               >
                 {isFullscreen ? (
                   <Minimize className="size-4" />
@@ -248,7 +320,7 @@ export function ReactPDFViewer() {
                   variant="secondary"
                   disabled={downloading}
                   onClick={handleDownload}
-                  title="Download PDF"
+                  title={t('PDF_VIEWER.DOWNLOAD')}
                 >
                   {downloading ? (
                     <Loader2 className="mr-1 size-4 animate-spin" />
@@ -256,7 +328,9 @@ export function ReactPDFViewer() {
                     <Download className="mr-1 size-4" />
                   )}
                   <span className="hidden sm:inline">
-                    {downloading ? 'Downloading...' : 'Download as PDF'}
+                    {downloading
+                      ? t('PDF_VIEWER.DOWNLOADING')
+                      : t('PDF_VIEWER.DOWNLOAD')}
                   </span>
                 </Button>
               )}
@@ -271,7 +345,12 @@ export function ReactPDFViewer() {
           !isFullscreen && 'p-5',
         )}
         onMouseMove={showAndScheduleHide}
-        onTouchStart={showAndScheduleHide}
+        onTouchStart={(e) => {
+          showAndScheduleHide();
+          handleTouchStart(e);
+        }}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
         onKeyDown={showAndScheduleHide}
         tabIndex={0} // allow key events when focused
         role="application"
@@ -279,7 +358,8 @@ export function ReactPDFViewer() {
       >
         {!pdfUrl && (
           <div className="text-muted-foreground flex h-full w-full items-center justify-center gap-2">
-            <Loader2 className="size-5 animate-spin" /> Loading PDF...
+            <Loader2 className="size-5 animate-spin" />{' '}
+            {t('PDF_VIEWER.LOADING')}
           </div>
         )}
         {pdfUrl && (
@@ -351,19 +431,23 @@ export function ReactPDFViewer() {
               <div className="fixed top-6 left-6 z-50">
                 <div className="rounded-lg border border-neutral-700 bg-black/90 p-4 text-white shadow-lg backdrop-blur-sm">
                   <h3 className="mb-2 text-sm font-semibold">
-                    Keyboard Shortcuts
+                    {t('PDF_VIEWER.SHORTCUTS_TITLE')}
                   </h3>
                   <div className="space-y-1 text-xs">
                     <div className="flex justify-between gap-4">
-                      <span>Navigate:</span>
+                      <span>{t('PDF_VIEWER.SHORTCUT_NAVIGATE')}</span>
                       <span className="text-neutral-300">← → ↑ ↓</span>
                     </div>
                     <div className="flex justify-between gap-4">
-                      <span>Exit fullscreen:</span>
+                      <span>{t('PDF_VIEWER.SHORTCUT_SWIPE')}</span>
+                      <span className="text-neutral-300">← →</span>
+                    </div>
+                    <div className="flex justify-between gap-4">
+                      <span>{t('PDF_VIEWER.SHORTCUT_EXIT_FULLSCREEN')}</span>
                       <span className="text-neutral-300">F or Esc</span>
                     </div>
                     <div className="flex justify-between gap-4">
-                      <span>Home:</span>
+                      <span>{t('PDF_VIEWER.SHORTCUT_HOME')}</span>
                       <span className="text-neutral-300">Home</span>
                     </div>
                   </div>

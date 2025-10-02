@@ -62,6 +62,13 @@
     "CONTACT_US": "Contact Us",
     "DRAWER_TITLE": "Menu"
   },
+  "LECTURE_LIST": {
+    "LOADING": "Loading lectures...",
+    "NO_LECTURES": "No lectures available",
+    "NO_LECTURES_FOR_LANGUAGE": "No lectures found for the selected language pair",
+    "TRY_DIFFERENT_LANGUAGE": "Try selecting a different language pair or view all languages",
+    "UNTITLED_COURSE": "Untitled Course"
+  },
   "PDF_VIEWER": {
     "READING_LABEL": "Reading",
     "BACK": "Back",
@@ -72,8 +79,17 @@
     "EXIT_FULLSCREEN": "Exit fullscreen (f)",
     "SHORTCUTS_TITLE": "Keyboard Shortcuts",
     "SHORTCUT_NAVIGATE": "Navigate:",
+    "SHORTCUT_SWIPE": "Swipe:",
     "SHORTCUT_EXIT_FULLSCREEN": "Exit fullscreen:",
     "SHORTCUT_HOME": "Home:",
-    "HOME": "Home"
+    "HOME": "Home",
+    "UNTITLED": "Untitled"
+  },
+  "NOT_FOUND": {
+    "TITLE": "Page Not Found",
+    "DESCRIPTION": "The page you're looking for doesn't exist or has been moved.",
+    "GO_HOME": "Go to Home",
+    "GO_BACK": "Go Back",
+    "HELP_TEXT": "If you think this is an error, please contact our support team."
   }
 }
