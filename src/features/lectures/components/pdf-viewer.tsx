@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useGetLecture } from '@/features/lectures/hooks/use-get-lecture';
 import { useGetLesson } from '@/features/lessons/hooks/use-get-lesson';
+import { useDetectAppleDevice } from '@/hooks/use-detect-apple-device';
 import { cn } from '@/lib/utils';
 import { usePdf } from '@mikecousins/react-pdf';
 import {
@@ -40,6 +41,7 @@ export function ReactPDFViewer() {
   const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(
     null,
   );
+  const { isIOS } = useDetectAppleDevice();
   const INACTIVITY_MS = 2000; // 3s inactivity hides controls
   const MIN_SWIPE_DISTANCE = 50;
   useEffect(() => {
@@ -56,6 +58,7 @@ export function ReactPDFViewer() {
   const goHome = useCallback(() => router.push('/lectures'), [router]);
 
   const toggleFullscreen = useCallback(() => {
+    if (isIOS) return; // Prevent attempting fullscreen on iOS (not supported reliably)
     if (!document.fullscreenElement) {
       document.documentElement
         .requestFullscreen()
@@ -78,7 +81,7 @@ export function ReactPDFViewer() {
           console.error('Error attempting to exit fullscreen:', err);
         });
     }
-  }, [setIsFullscreen, setShowShortcuts]);
+  }, [isIOS, setIsFullscreen, setShowShortcuts]);
 
   const goToNextPage = useCallback(() => {
     setPage((p) => (numPages && p < numPages ? p + 1 : p));
@@ -133,37 +136,52 @@ export function ReactPDFViewer() {
     if (!pdfUrl || downloading) return;
     try {
       setDownloading(true);
-      const resp = await fetch(pdfUrl, { mode: 'cors' });
-      if (!resp.ok) throw new Error('Failed to fetch file');
-      const blob = await resp.blob();
-      const blobUrl = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      // Build a reasonable filename
-      const baseName = (
-        data?.title ||
-        lesson?.title ||
-        'document'
-      ).toLowerCase();
-      // .replace(/[^a-z0-9_\-]+/gi, '_')
-      // .replace(/_+/g, '_')
-      // .replace(/^_|_$/g, '');
-      a.href = blobUrl;
-      a.download = baseName.endsWith('.pdf') ? baseName : baseName + '.pdf';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(pdfUrl);
-      setTimeout(() => URL.revokeObjectURL(blobUrl), 2000);
+      // Build filename
+      const baseName = (data?.title || lesson?.title || 'document')
+        .toLowerCase()
+        .replace(/_+/g, '_')
+        .replace(/^_|_$/g, '');
+      const filename = baseName.endsWith('.pdf') ? baseName : baseName + '.pdf';
+
+      // For iOS Safari we rely on the proxy forcing attachment (cannot programmatically set download reliably)
+      const effectiveUrl = `/api/pdf-proxy?url=${encodeURIComponent(pdfUrl)}&filename=${encodeURIComponent(filename)}`;
+
+      // Detect Safari (including Chrome on iOS which is still WebKit) vs other browsers
+      const ua = navigator.userAgent;
+      const isSafariEngine =
+        /Safari\//.test(ua) && !/Chrome\//.test(ua) && !/Chromium\//.test(ua);
+      const useDirectBlob = !isIOS && !isSafariEngine; // other browsers can use blob for better naming
+
+      if (useDirectBlob) {
+        const resp = await fetch(pdfUrl, { mode: 'cors' });
+        if (!resp.ok) throw new Error('Failed to fetch file');
+        const blob = await resp.blob();
+        const blobUrl = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = blobUrl;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(blobUrl), 4000);
+      } else {
+        // Navigate via hidden iframe to trigger native download prompt without opening a new tab
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = effectiveUrl;
+        document.body.appendChild(iframe);
+        // Cleanup later
+        setTimeout(() => iframe.remove(), 10000);
+      }
     } catch (e) {
       console.error('Download failed', e);
-      // Fallback: open in new tab if direct download fails
       try {
         window.open(pdfUrl, '_blank', 'noopener');
       } catch {}
     } finally {
       setDownloading(false);
     }
-  }, [pdfUrl, downloading, data?.title, lesson?.title]);
+  }, [pdfUrl, downloading, data?.title, lesson?.title, isIOS]);
 
   const scheduleHide = useCallback(() => {
     if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
@@ -235,10 +253,10 @@ export function ReactPDFViewer() {
       } else if (e.key === 'Home') {
         e.preventDefault();
         goHome();
-      } else if (e.key === 'f' || e.key === 'F11') {
+      } else if (!isIOS && (e.key === 'f' || e.key === 'F11')) {
         e.preventDefault();
         toggleFullscreen();
-      } else if (e.key === 'Escape' && isFullscreen) {
+      } else if (!isIOS && e.key === 'Escape' && isFullscreen) {
         e.preventDefault();
         toggleFullscreen();
       }
@@ -246,14 +264,21 @@ export function ReactPDFViewer() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [goToPreviousPage, goToNextPage, goHome, toggleFullscreen, isFullscreen]);
+  }, [
+    goToPreviousPage,
+    goToNextPage,
+    goHome,
+    toggleFullscreen,
+    isFullscreen,
+    isIOS,
+  ]);
 
   return (
     <div
       className={`flex h-screen flex-col ${isFullscreen ? 'bg-black' : 'bg-neutral-100'} select-none`}
     >
       {/* Top Bar */}
-      {isFullscreen && showControls && (
+      {isFullscreen && showControls && !isIOS && (
         <div
           className={cn(
             'absolute top-5 right-5 items-center gap-2 rounded-full border shadow-lg backdrop-blur-sm',
@@ -298,22 +323,24 @@ export function ReactPDFViewer() {
               </div>
             </div>
             <div className="flex flex-row items-center justify-end gap-2">
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={toggleFullscreen}
-                title={
-                  isFullscreen
-                    ? t('PDF_VIEWER.EXIT_FULLSCREEN')
-                    : t('PDF_VIEWER.FULLSCREEN')
-                }
-              >
-                {isFullscreen ? (
-                  <Minimize className="size-4" />
-                ) : (
-                  <Maximize className="size-4" />
-                )}
-              </Button>
+              {!isIOS && (
+                <Button
+                  size="icon"
+                  variant="outline"
+                  onClick={toggleFullscreen}
+                  title={
+                    isFullscreen
+                      ? t('PDF_VIEWER.EXIT_FULLSCREEN')
+                      : t('PDF_VIEWER.FULLSCREEN')
+                  }
+                >
+                  {isFullscreen ? (
+                    <Minimize className="size-4" />
+                  ) : (
+                    <Maximize className="size-4" />
+                  )}
+                </Button>
+              )}
               {pdfUrl && (
                 <Button
                   size="sm"
