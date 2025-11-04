@@ -36,7 +36,7 @@ const Images: ImageCollection = {
     extensiveLessonLibrary,
   },
   public: {
-    kindoLogoLight: '/kindo-logo-light.svg',
+    kindoLogoLight: '/kindo-logo-light.png',
     landing: '/landing.png',
     file: '/file.svg',
     globe: '/globe.svg',

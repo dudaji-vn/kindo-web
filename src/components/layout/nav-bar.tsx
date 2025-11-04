@@ -14,8 +14,9 @@ import {
   DrawerTrigger,
 } from '../ui/drawer';
 
-import { useTranslation } from 'react-i18next';
+import Images from '@/assets/images';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 interface NavigationItem {
   key: string; // translation key suffix
@@ -57,13 +58,15 @@ const Navbar = () => {
 
             <div className="flex flex-shrink-0 items-center">
               <Link href="/">
-                <Image
-                  className="block h-12 w-40 lg:hidden"
-                  src="/kindo-logo-light.svg"
-                  alt="Kindo Logo"
-                  width={160}
-                  height={48}
-                />
+                <div className="h-12 w-40 lg:hidden">
+                  <Image
+                    src={Images.public.kindoLogoLight}
+                    alt="Kindo Logo"
+                    height={80}
+                    width={272}
+                    className="max-h-full max-w-full flex-1 object-contain"
+                  />
+                </div>
                 <Image
                   className="hidden h-full w-full lg:block"
                   src="/kindo-logo-light.svg"
@@ -116,13 +119,15 @@ const Navbar = () => {
                   <div className="flex flex-shrink-0 items-center">
                     <DrawerClose asChild>
                       <Link href="/">
-                        <Image
-                          className="block h-12 w-40 lg:hidden"
-                          src="/kindo-logo-light.svg"
-                          alt="Kindo Logo"
-                          width={160}
-                          height={48}
-                        />
+                        <div className="h-12 w-40 lg:hidden">
+                          <Image
+                            src={Images.public.kindoLogoLight}
+                            alt="Kindo Logo"
+                            height={80}
+                            width={272}
+                            className="max-h-full max-w-full flex-1 object-contain"
+                          />
+                        </div>
                         <Image
                           className="hidden h-full w-full lg:block"
                           src="/kindo-logo-light.svg"
