@@ -15,7 +15,7 @@ export default function HeroSection() {
   const { t } = useTranslation('common');
   return (
     <>
-      <section className="relative mx-5 mt-[84px] flex flex-1 justify-center max-md:h-[calc(100dvh-104px)] sm:mx-10 md:mx-[5vw] md:mt-24 md:min-h-1/2">
+      <section className="relative mx-5 mt-[84px] flex flex-1 justify-center max-md:h-[calc(100vh-104px)] sm:mx-10 md:mx-[5vw] md:mt-24 md:min-h-1/2">
         {/* Download card */}
         <div className="relative flex h-full w-full max-w-7xl">
           <div className="z-10 flex w-full px-5 py-5 md:min-w-1/2 md:justify-center md:px-10 md:py-10">
