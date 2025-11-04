@@ -84,5 +84,33 @@
     "GO_HOME": "(ko) Go to Home",
     "GO_BACK": "(ko) Go Back",
     "HELP_TEXT": "(ko) If you think this is an error, please contact our support team."
+  },
+  "DELETE_ACCOUNT": {
+    "TITLE": "(ko) Delete Account",
+    "DESCRIPTION": "(ko) Permanently delete your Kindo account and all associated data.",
+    "SIGN_IN_REQUIRED": "(ko) You need to sign in to delete your account.",
+    "SIGN_IN_WITH_GOOGLE": "(ko) Sign in with Google",
+    "SIGN_IN_WITH_EMAIL": "(ko) Sign in with Email",
+    "OR_DIVIDER": "(ko) or",
+    "EMAIL_LABEL": "(ko) Email",
+    "PASSWORD_LABEL": "(ko) Password",
+    "EMAIL_PLACEHOLDER": "(ko) Enter your email",
+    "PASSWORD_PLACEHOLDER": "(ko) Enter your password",
+    "SIGNING_IN": "(ko) Signing in...",
+    "SIGNED_IN_AS": "(ko) Signed in as:",
+    "WARNING_TITLE": "(ko) Warning: This action cannot be undone",
+    "WARNING_1": "(ko) All your progress and learning data will be permanently deleted",
+    "WARNING_2": "(ko) Your account will be immediately deactivated",
+    "WARNING_3": "(ko) You will need to create a new account to use Kindo again",
+    "DELETE_BUTTON": "(ko) Delete My Account",
+    "DELETING": "(ko) Deleting...",
+    "CONFIRM_TITLE": "(ko) Are you absolutely sure?",
+    "CONFIRM_DESCRIPTION": "(ko) This action cannot be undone. This will permanently delete your account and remove all your data from our servers.",
+    "CANCEL": "(ko) Cancel",
+    "CONFIRM_DELETE": "(ko) Yes, delete my account",
+    "BACK_TO_HOME": "(ko) ← Back to Home",
+    "SIGN_IN_ERROR": "(ko) Failed to sign in. Please try again.",
+    "DELETE_ERROR": "(ko) Failed to delete account. Please try again.",
+    "INVALID_CREDENTIALS": "(ko) Invalid email or password."
   }
 }
