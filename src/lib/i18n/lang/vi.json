@@ -91,5 +91,33 @@
     "GO_HOME": "Về trang chủ",
     "GO_BACK": "Quay lại",
     "HELP_TEXT": "Nếu bạn nghĩ đây là lỗi, vui lòng liên hệ đội hỗ trợ của chúng tôi."
+  },
+  "DELETE_ACCOUNT": {
+    "TITLE": "Xóa tài khoản",
+    "DESCRIPTION": "Xóa vĩnh viễn tài khoản Kindo và tất cả dữ liệu liên quan.",
+    "SIGN_IN_REQUIRED": "Bạn cần đăng nhập để xóa tài khoản.",
+    "SIGN_IN_WITH_GOOGLE": "Đăng nhập với Google",
+    "SIGN_IN_WITH_EMAIL": "Đăng nhập bằng Email",
+    "OR_DIVIDER": "hoặc",
+    "EMAIL_LABEL": "Email",
+    "PASSWORD_LABEL": "Mật khẩu",
+    "EMAIL_PLACEHOLDER": "Nhập email của bạn",
+    "PASSWORD_PLACEHOLDER": "Nhập mật khẩu",
+    "SIGNING_IN": "Đang đăng nhập...",
+    "SIGNED_IN_AS": "Đã đăng nhập với:",
+    "WARNING_TITLE": "Cảnh báo: Hành động này không thể hoàn tác",
+    "WARNING_1": "Toàn bộ tiến trình và dữ liệu học tập sẽ bị xóa vĩnh viễn",
+    "WARNING_2": "Tài khoản của bạn sẽ bị vô hiệu hóa ngay lập tức",
+    "WARNING_3": "Bạn cần tạo tài khoản mới để sử dụng Kindo lại",
+    "DELETE_BUTTON": "Xóa tài khoản của tôi",
+    "DELETING": "Đang xóa...",
+    "CONFIRM_TITLE": "Bạn có chắc chắn không?",
+    "CONFIRM_DESCRIPTION": "Hành động này không thể hoàn tác. Tài khoản và toàn bộ dữ liệu của bạn sẽ bị xóa vĩnh viễn khỏi máy chủ.",
+    "CANCEL": "Hủy",
+    "CONFIRM_DELETE": "Có, xóa tài khoản",
+    "BACK_TO_HOME": "← Về trang chủ",
+    "SIGN_IN_ERROR": "Đăng nhập thất bại. Vui lòng thử lại.",
+    "DELETE_ERROR": "Xóa tài khoản thất bại. Vui lòng thử lại.",
+    "INVALID_CREDENTIALS": "Email hoặc mật khẩu không đúng."
   }
 }
