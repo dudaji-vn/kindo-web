@@ -4,6 +4,7 @@ import pcLanding from './homepage/pc-landing.png';
 import aiPoweredPractice from './homepage/AI-powered-practice.png';
 import incentiveBadges from './homepage/incentive-badges.png';
 import gamifiedLearning from './homepage/gamified-learning.png';
+import kindoLogoLight from './kindo-logo-light.png';
 import extensiveLessonLibrary from './homepage/extensive-lesson-library.png';
 
 interface ImageCollection {
@@ -16,7 +17,7 @@ interface ImageCollection {
     extensiveLessonLibrary: StaticImageData;
   };
   public: {
-    kindoLogoLight: string;
+    kindoLogoLight: StaticImageData;
     landing: string;
     file: string;
     globe: string;
@@ -36,7 +37,7 @@ const Images: ImageCollection = {
     extensiveLessonLibrary,
   },
   public: {
-    kindoLogoLight: '/kindo-logo-light.png',
+    kindoLogoLight,
     landing: '/landing.png',
     file: '/file.svg',
     globe: '/globe.svg',
